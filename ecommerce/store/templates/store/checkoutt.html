@@ -1,0 +1,1157 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Razorpay JS Library -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+        .message-boxx p {
+            margin: 5px 0;
+            color:#ff0000;
+        }
+    </style>
+    <style>
+        .address-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            max-width: 300px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-family: Arial, sans-serif;
+        }
+        .address-card h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 18px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 8px;
+        }
+        .address-details {
+            margin: 0;
+            color: #555;
+            line-height: 1.5;
+        }
+        .address-line {
+            margin-bottom: 4px;
+        }
+        .mobile {
+            margin-top: 8px;
+            font-weight: bold;
+        }
+    </style>
+    
+    <style>
+
+        
+        .d-none {
+            display: none;
+        }
+
+        .success-message {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 21em;
+        }
+
+        .success-message span {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+
+
+        .error-message {
+            display: flex;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            width: 21em;
+        }
+
+        .error-message span {
+            margin-left: 10px;
+            font-size: 12px;
+        }
+
+        /* Custom button styles */
+        .btn-xm {
+            padding: 4px 8px;
+            /* Adjust the padding to make the button smaller */
+            font-size: 12px;
+            /* Adjust the font size */
+            border-radius: 0px;
+            /* Optional: adjust border radius for rounded corners */
+        }
+
+        .btn-xm.btn-primary {
+            background-color: #fff;
+            /* Primary button color */
+            border: 1px solid #c96;
+            /* Remove border */
+            color: #c96;
+            /* Text color */
+        }
+
+        .btn-xm.btn-danger {
+            background-color: #fff;
+            /* Danger button color */
+            border: 1px solid #c96;
+            ;
+            /* Remove border */
+            color: #c96;
+            /* Text color */
+        }
+
+        /* Optional: hover effects */
+        .btn-xm.btn-primary:hover {
+            background-color: #c96;
+            color: #fff;
+            /* Darker shade of primary color on hover */
+        }
+
+        .btn-xm.btn-danger:hover {
+            background-color: #c96;
+            color: #fff;
+            /* Darker shade of danger color on hover */
+        }
+
+        .address-item {
+            padding: 10px;
+            margin-bottom: 0px;
+            /* Space below each address item */
+            border-bottom: 1px solid #ddd;
+            /* Bottom border line */
+        }
+
+        .address-item:last-child {
+            border-bottom: none;
+            /* Remove border from the last item */
+        }
+
+        #successAddressMessage,
+        #errorAddressMessage {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            width: 90%;
+            max-width: 300px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: center;
+            padding: 12px;
+            background-color: black;
+            color: white;
+        }
+
+        .btn-edit-address,
+        .btn-delete-address {
+            background-color: #fff;
+            color: #000000;
+            padding: 10px;
+            margin-left: -9px;
+            font-weight: bolder;
+        }
+
+        .btn-edit-address:hover {
+            color: #c96;
+
+        }
+
+        .btn-delete-address:hover {
+            color: #c96;
+
+        }
+
+        #addAddressBtn {
+            color: #c96;
+            background-color: #fff;
+            border: 1px solid #c96;
+        }
+
+        #addAddressBtn:hover {
+            color: white;
+            background-color: #c96;
+        }
+
+        .modal-content {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .modal-header {
+            background-color: #343a40;
+            color: #fff;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-title {
+            font-weight: bold;
+            color:#fff;
+        }
+
+        .modal-header .close {
+            color: #fff;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        
+
+        .modal-footer {
+            background-color: #f1f1f1;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .modal-footer .btn {
+            font-weight: bold;
+        }
+
+        #viewOrder {
+            border: 1px solid #c96;
+            color: #c96;
+            background-color: white;
+        }
+
+        #viewOrder:hover {
+            color: #fff;
+            background-color: #c96;
+        }
+    </style>
+    <style>
+        /* Coupon Modal Styling */
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                background-color: #f0f0f0;
+            }
+            .checkout-discount {
+                background-color: #ffffff;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .checkout-discount form {
+                display: flex;
+            }
+            .checkout-discount input {
+                flex-grow: 1;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 4px 0 0 4px;
+            }
+            .checkout-discount button {
+                padding: 10px 20px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 0 4px 4px 0;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .checkout-discount button:hover {
+                background-color: #45a049;
+            }
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0,0,0,0.4);
+            }
+            .modal-content {
+                background-color: #fefefe;
+                margin: 15% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 600px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            }
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+            .close:hover {
+                color: #000;
+            }
+            h2 {
+                color: #333;
+                margin-bottom: 20px;
+            }
+            .coupon-list {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+            .coupon-card {
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 15px;
+                margin-bottom: 10px;
+            }
+            .coupon-card h5 {
+                color: #4CAF50;
+                margin-top: 0;
+            }
+            .coupon-card p {
+                margin: 5px 0;
+            }
+            .btn-secondary {
+                background-color: #6c757d;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+            }
+            .btn-secondary:hover {
+                background-color: #5a6268;
+            }
+        </style>
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="header-dropdown">
+                            <a href="#">Usd</a>
+                            <div class="header-menu">
+                                <ul>
+                                    <li><a href="#">Eur</a></li>
+                                    <li><a href="#">Usd</a></li>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+
+                        <div class="header-dropdown">
+                            <a href="#">Eng</a>
+                            <div class="header-menu">
+                                <ul>
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">Spanish</a></li>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                    <li><a href="{% url 'wishlist' %}"><i class="icon-heart-o"></i>My Wishlist <span>(3)</span></a></li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li>
+                                        {% if request.user.is_authenticated %}
+                                            <a href="{% url 'accounts' %}"><i class="icon-user"></i>Welcome {{request.user}}</a>
+                                        {% else %}
+                                            <a href="{% url 'login' %}"><i class="icon-user"></i>Login</a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        <a href="/home" class="logo">
+                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                        </a>
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="/home" class="">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'all_product' %}">Product</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'wishlist' %}">Wishlist</a>
+                                <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+                                    <ul>
+                                        <li><a href="about.html">About</a></li>
+                                        <li><a href="/contact-us">Contact</a></li>
+                                        <li><a href="/login">Login</a></li>
+                                        <li><a href="coming-soon.html">Coming Soon</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+    
+                    <div class="header-right">
+                        <div class="header-search">
+                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="search-input" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="search-input"
+                                        placeholder="Search in..." required onkeyup="searchCart()" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="cart-dropdown">
+                            <a href="/wallet" class="dropdown-toggle" style="font-size: 23px;">
+                                <i class="fa-solid fa-wallet"></i>
+                            </a>
+                        </div>
+                        <div class="dropdown cart-dropdown">
+                            <a href="/cart" class="dropdown-toggle">
+                                <i class="icon-shopping-cart"></i>
+                                
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header><!-- End .header -->
+
+        <main class="main">
+        	<div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        		<div class="container">
+        			<h1 class="page-title">Checkout<span>Shop</span></h1>
+        		</div><!-- End .container -->
+        	</div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+            	<div class="checkout">
+	                <div class="container">
+            			<div class="checkout-discount">
+                            <form method="POST" action="{% url 'checkoutt' %}" class="d-flex">
+                                {% csrf_token %}
+                                <input type="text" class="form-control form-control-sm" required id="checkout-discount-input" name="couponCode" placeholder="Enter your coupon" {% if applied_coupon %}value="{{ applied_coupon.code }}" readonly{% endif %}>
+                                {% if not applied_coupon %}
+                                    <button type="submit" class="btn-success btn-sm ml-2" id="applyCoupon">Apply</button>
+                                {% else %}
+                                    <button type="submit" class="btn-danger btn-sm ml-2" name="remove_coupon" value="remove" id="removeCoupon">Remove</button>
+                                {% endif %}
+                            </form>
+                            <!-- Show active coupons to the user -->
+                            <button type="button" class="btn btn-info mt-2" id="showCoupons">Show Coupons</button>
+                        </div>
+                        
+                        {% if discount_amount > 0 %}
+                            <div class="mt-3 alert alert-success">
+                                Coupon "{{ applied_coupon.code }}" applied! You saved ₹{{ discount_amount }}.
+                            </div>
+                        {% endif %}
+                        
+                        
+                        <!-- Coupon Modal -->
+                        <div id="couponModal" class="modal" style="display:none;">
+                            <div class="modal-content">
+                                <span class="close">&times;</span>
+                                <h2>Available Coupons</h2>
+                                <div class="coupon-list">
+                                    {% for coupon in coupons %}
+                                        <div class="coupon-card">
+                                            <h5>{{ coupon.name }}</h5>
+                                            <p>
+                                                <strong>Code:</strong> 
+                                                <span id="couponCode{{ forloop.counter }}">{{ coupon.code }}</span>
+                                                <button class="copy-btn" onclick="copyCouponCode('{{ coupon.code }}')">
+                                                    <i class="fa fa-copy"></i> Copy
+                                                </button>
+                                            </p>
+                                            <p><strong>Discount:</strong> {{ coupon.discount_percentage }}%</p>
+                                            <p><strong>Minimum Amount:</strong> ₹{{ coupon.minimum_amount }}</p>
+                                            <p><strong>Expiry Date:</strong> {{ coupon.expiry_date }}</p>
+                                        </div>
+                                    {% empty %}
+                                        <p>No active coupons available.</p>
+                                    {% endfor %}
+                                </div>
+                                <button type="button" class="btn btn-secondary close-modal">Close</button>
+                            </div>
+                        </div>
+                        
+            			<form method="POST" action="{% url 'checkoutt' %}">
+                            {% csrf_token %}
+                        
+                            <div class="row">
+                                <div class="col-lg-9">
+                                    <h2 class="checkout-title">Billing Details</h2>
+                        
+                                    <!-- Address List -->
+                                    <div id="address-list" class="row">
+                                        {% for address in addresses %}
+                                        <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                                            <div class="card address-card">
+                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <h5 class="card-title mb-0">{{ address.first_name }} {{ address.last_name }}</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h6 class="card-subtitle mb-2 text-muted">Shipping Address</h6>
+                                                    <div class="address-details">
+                                                        <p class="address-line"><strong>{{ address.street_address }}</strong></p>
+                                                        <p class="address-line">{{ address.city }}, {{ address.state }} - {{ address.postcode }}</p>
+                                                        <p class="mobile">
+                                                            <i class="fas fa-phone-alt mr-1"></i> {{ address.phone }}
+                                                        </p>
+                                                    </div>
+                                                    
+                                                    <!-- Radio button for selecting the address -->
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="selected_address" id="address-{{ address.id }}" value="{{ address.id }}" {% if forloop.first %}checked{% endif %}>
+                                                        <label class="form-check-label" for="address-{{ address.id }}">
+                                                            Use this address
+                                                        </label>
+                                                    </div>
+                                    
+                                                    <!-- Form to remove the address -->
+                                                    {% comment %} <form method="POST" action="{% url 'remove_address_from_checkout' address.id %}" class="mt-2">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                                                    </form> {% endcomment %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <a href="{% url 'add_address' %}" class="btn btn-primary">Add Address</a>
+                                </div>
+                        
+                                <aside class="col-lg-3">
+                                    <div class="summary">
+                                        <h3 class="summary-title">Your Order</h3>
+                        
+                                        <table class="table table-summary">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in cart_items %}
+                                                <tr>
+                                                    <td><a href="#">{{ item.product.title }}</a></td>
+                                                    <td>${{ item.total_price }}</td>
+                                                </tr>
+                                                {% endfor %}
+                                                <tr class="summary-subtotal">
+                                                    <td>Subtotal:</td>
+                                                    <td>${{ total_cart_price }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Shipping:</td>
+                                                    <td>Free shipping</td>
+                                                </tr>
+                                                <tr class="summary-total">
+                                                    <td>Total:</td>
+                                                    <td>${{ final_total_amount }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                        
+                                        <div class="accordion-summary" id="accordion-payment">
+                                            <!-- Cash on Delivery Payment Option -->
+                                            <div class="card">
+                                                <div class="card-header" id="heading-3">
+                                                    <h2 class="card-title">
+                                                        <input type="radio" name="payment" value="cash on delivery" id="Cash On Delivery" checked> <!-- Default selected -->
+                                                        <label for="cash">Cash on Delivery</label>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse-3" class="collapse show" aria-labelledby="heading-3" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                        Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+                                                    </div>
+                                                </div>
+                                                <div class="message-boxx">
+                                                    {% if messages %} 
+                                                        {% for message in messages %}
+                                                            <p>{{message}}</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Online Payment Option -->
+                                            <div class="card">
+                                                <div class="card-header" id="heading-4">
+                                                    <h2 class="card-title">
+                                                        <input type="radio" name="payment" value="online" id="online_payment"> <!-- Not selected by default -->
+                                                        <label for="online">Online Payment</label>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                        Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. You can pay securely online using credit or debit cards.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="heading-wallet">
+                                                    <h2 class="card-title">
+                                                        <input type="radio" name="payment" value="wallet" id="wallet_payment">
+                                                        <label for="wallet_payment">Wallet</label>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse-wallet" class="collapse" aria-labelledby="heading-wallet" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                        Pay using your wallet balance.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            <!-- Hidden form fields for Razorpay -->
+                                            <form id="razorpay-form" method="POST" action="{% url 'verify_payment' %}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="razorpay_payment_id" id="razorpay_payment_id">
+                                                <input type="hidden" name="razorpay_order_id" id="razorpay_order_id">
+                                                <input type="hidden" name="razorpay_signature" id="razorpay_signature">
+                                            </form>
+                                            
+                                            <img src="{% static 'assets/images/payments-summary.png' %}" alt="payments cards">
+                                        </div>
+                                        
+                                        
+                        
+                                        <!-- Place Order Submit Button -->
+                                        <button type="submit" name="place_order" class="btn btn-outline-primary-2 btn-order btn-block">
+                                            <span class="btn-text">Place Order</span>
+                                            <span class="btn-hover-text">Proceed to Checkout</span>
+                                        </button>
+                                    </div>
+                                </aside>
+                            </div>
+                        </form>
+                        
+	                </div><!-- End .container -->
+                </div><!-- End .checkout -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <footer class="footer">
+        	<div class="footer-middle">
+	            <div class="container">
+	            	<div class="row">
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget widget-about">
+	            				<img src="{% static 'assets/images/venet/icon.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+	            				<div class="social-icons">
+	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+	            				</div><!-- End .soial-icons -->
+	            			</div><!-- End .widget about-widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="about.html">About Molla</a></li>
+	            					<li><a href="#">How to shop on Molla</a></li>
+	            					<li><a href="#">FAQ</a></li>
+	            					<li><a href="contact.html">Contact us</a></li>
+	            					<li><a href="login.html">Log in</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Payment Methods</a></li>
+	            					<li><a href="#">Money-back guarantee!</a></li>
+	            					<li><a href="#">Returns</a></li>
+	            					<li><a href="#">Shipping</a></li>
+	            					<li><a href="#">Terms and conditions</a></li>
+	            					<li><a href="#">Privacy Policy</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="#">Track My Order</a></li>
+	            					<li><a href="#">Help</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+	            	</div><!-- End .row -->
+	            </div><!-- End .container -->
+	        </div><!-- End .footer-middle -->
+
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<p class="footer-copyright">Copyright © 2019 Venet Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+	        		<figure class="footer-payments">
+	        			<img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
+	        		</figure><!-- End .footer-payments -->
+	        	</div><!-- End .container -->
+	        </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="index.html">Home</a>
+
+                        <ul>
+                            <li><a href="index-1.html">01 - furniture store</a></li>
+                            <li><a href="index-2.html">02 - furniture store</a></li>
+                            <li><a href="index-3.html">03 - electronic store</a></li>
+                            <li><a href="index-4.html">04 - electronic store</a></li>
+                            <li><a href="index-5.html">05 - fashion store</a></li>
+                            <li><a href="index-6.html">06 - fashion store</a></li>
+                            <li><a href="index-7.html">07 - fashion store</a></li>
+                            <li><a href="index-8.html">08 - fashion store</a></li>
+                            <li><a href="index-9.html">09 - fashion store</a></li>
+                            <li><a href="index-10.html">10 - shoes store</a></li>
+                            <li><a href="index-11.html">11 - furniture simple store</a></li>
+                            <li><a href="index-12.html">12 - fashion simple store</a></li>
+                            <li><a href="index-13.html">13 - market</a></li>
+                            <li><a href="index-14.html">14 - market fullwidth</a></li>
+                            <li><a href="index-15.html">15 - lookbook 1</a></li>
+                            <li><a href="index-16.html">16 - lookbook 2</a></li>
+                            <li><a href="index-17.html">17 - fashion store</a></li>
+                            <li><a href="index-18.html">18 - fashion store (with sidebar)</a></li>
+                            <li><a href="index-19.html">19 - games store</a></li>
+                            <li><a href="index-20.html">20 - book store</a></li>
+                            <li><a href="index-21.html">21 - sport store</a></li>
+                            <li><a href="index-22.html">22 - tools store</a></li>
+                            <li><a href="index-23.html">23 - fashion left navigation store</a></li>
+                            <li><a href="index-24.html">24 - extreme sport store</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="category.html">Shop</a>
+                        <ul>
+                            <li><a href="category-list.html">Shop List</a></li>
+                            <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
+                            <li><a href="category.html">Shop Grid 3 Columns</a></li>
+                            <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
+                            <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
+                            <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
+                            <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
+                            <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="cart.html">Cart</a></li>
+                            <li><a href="checkout.html">Checkout</a></li>
+                            <li><a href="wishlist.html">Wishlist</a></li>
+                            <li><a href="#">Lookbook</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="product.html" class="sf-with-ul">Product</a>
+                        <ul>
+                            <li><a href="product.html">Default</a></li>
+                            <li><a href="product-centered.html">Centered</a></li>
+                            <li><a href="product-extended.html"><span>Extended Info<span class="tip tip-new">New</span></span></a></li>
+                            <li><a href="product-gallery.html">Gallery</a></li>
+                            <li><a href="product-sticky.html">Sticky Info</a></li>
+                            <li><a href="product-sidebar.html">Boxed With Sidebar</a></li>
+                            <li><a href="product-fullwidth.html">Full Width</a></li>
+                            <li><a href="product-masonry.html">Masonry Sticky Info</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li>
+                                <a href="about.html">About</a>
+
+                                <ul>
+                                    <li><a href="about.html">About 01</a></li>
+                                    <li><a href="about-2.html">About 02</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+
+                                <ul>
+                                    <li><a href="contact.html">Contact 01</a></li>
+                                    <li><a href="contact-2.html">Contact 02</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="login.html">Login</a></li>
+                            <li><a href="faq.html">FAQs</a></li>
+                            <li><a href="404.html">Error 404</a></li>
+                            <li><a href="coming-soon.html">Coming Soon</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="blog.html">Blog</a>
+
+                        <ul>
+                            <li><a href="blog.html">Classic</a></li>
+                            <li><a href="blog-listing.html">Listing</a></li>
+                            <li>
+                                <a href="#">Grid</a>
+                                <ul>
+                                    <li><a href="blog-grid-2cols.html">Grid 2 columns</a></li>
+                                    <li><a href="blog-grid-3cols.html">Grid 3 columns</a></li>
+                                    <li><a href="blog-grid-4cols.html">Grid 4 columns</a></li>
+                                    <li><a href="blog-grid-sidebar.html">Grid sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Masonry</a>
+                                <ul>
+                                    <li><a href="blog-masonry-2cols.html">Masonry 2 columns</a></li>
+                                    <li><a href="blog-masonry-3cols.html">Masonry 3 columns</a></li>
+                                    <li><a href="blog-masonry-4cols.html">Masonry 4 columns</a></li>
+                                    <li><a href="blog-masonry-sidebar.html">Masonry sidebar</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Mask</a>
+                                <ul>
+                                    <li><a href="blog-mask-grid.html">Blog mask grid</a></li>
+                                    <li><a href="blog-mask-masonry.html">Blog mask masonry</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="#">Single Post</a>
+                                <ul>
+                                    <li><a href="single.html">Default with sidebar</a></li>
+                                    <li><a href="single-fullwidth.html">Fullwidth no sidebar</a></li>
+                                    <li><a href="single-fullwidth-sidebar.html">Fullwidth with sidebar</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="elements-list.html">Elements</a>
+                        <ul>
+                            <li><a href="elements-products.html">Products</a></li>
+                            <li><a href="elements-typography.html">Typography</a></li>
+                            <li><a href="elements-titles.html">Titles</a></li>
+                            <li><a href="elements-banners.html">Banners</a></li>
+                            <li><a href="elements-product-category.html">Product Category</a></li>
+                            <li><a href="elements-video-banners.html">Video Banners</a></li>
+                            <li><a href="elements-buttons.html">Buttons</a></li>
+                            <li><a href="elements-accordions.html">Accordions</a></li>
+                            <li><a href="elements-tabs.html">Tabs</a></li>
+                            <li><a href="elements-testimonials.html">Testimonials</a></li>
+                            <li><a href="elements-blog-posts.html">Blog Posts</a></li>
+                            <li><a href="elements-portfolio.html">Portfolio</a></li>
+                            <li><a href="elements-cta.html">Call to Action</a></li>
+                            <li><a href="elements-icon-boxes.html">Icon Boxes</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+
+
+
+    <!--Razorpay JS-->
+    <script>
+        var options = {
+            "key": "{{ razorpay_key_id }}", // Enter the Razorpay key_id generated from the Razorpay dashboard
+            "amount": "{{ total_amount|floatformat:0 }}00", // Amount in paise
+            "currency": "INR",
+            "name": "{{ user_name }}",
+            "description": "Order Payment",
+            "image": "/path_to_logo.png", // Optional logo image
+            "order_id": "{{ razorpay_order_id }}", // Razorpay order_id from the session
+            "handler": function (response){
+                // This function is called when payment is successful
+                // You can send the payment ID and other details to the backend to verify and create an order
+                $.ajax({
+                    url: "{% url 'verify_payment' %}",
+                    type: "POST",
+                    data: {
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature,
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function (data) {
+                        window.location.href = "{% url 'order_summery' %}";  // Redirect to order summary on success
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error, show message to user
+                        alert("Payment failed. Please try again.");
+                    }
+                });
+            },
+            "prefill": {
+                "name": "{{ user_name }}",
+                "email": "{{ user_email }}",
+                "contact": "{{ request.user.profile.phone_number }}" // Add contact number if available
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+    
+        var rzp1 = new Razorpay(options);
+    
+        document.getElementById('online_payment').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        }
+    </script>
+
+
+
+    <!-- JavaScript to Set Default Selection on Cash on delivery -->
+<script>
+    // Ensure Cash on Delivery is selected by default when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        const cashOnDeliveryRadio = document.querySelector('input[name="payment"][value="cash"]');
+        if (cashOnDeliveryRadio) {
+            cashOnDeliveryRadio.checked = true;
+        }
+    });
+</script>
+
+
+
+
+
+<!-- JavaScript for Modal Functionality -->
+<script>
+    // Get the modal
+    var modal = document.getElementById("couponModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("showCoupons");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    var closeModalButtons = document.getElementsByClassName("close-modal");
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks on the close button in the modal
+    for (var i = 0; i < closeModalButtons.length; i++) {
+        closeModalButtons[i].onclick = function() {
+            modal.style.display = "none";
+        }
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    // Function to copy the coupon code
+    function copyCouponCode(code) {
+        // Create a temporary input to hold the coupon code
+        var tempInput = document.createElement("input");
+        tempInput.value = code;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+        alert("Coupon code " + code + " copied!");
+    }
+</script>
+
+
+
+
+
+    <!-- Add this script to handle modal behavior -->
+<script>
+    // Get modal elements
+    var couponModal = document.getElementById('couponModal');
+    var openModalBtn = document.getElementById('openCouponModal');
+    var closeModalBtns = document.querySelectorAll('.close, .close-modal');
+
+    // Open the modal when the button is clicked
+    openModalBtn.addEventListener('click', function() {
+        couponModal.style.display = 'block';
+    });
+
+    // Close the modal when the close button is clicked
+    closeModalBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            couponModal.style.display = 'none';
+        });
+    });
+
+    // Close the modal when clicking outside of the modal content
+    window.addEventListener('click', function(event) {
+        if (event.target == couponModal) {
+            couponModal.style.display = 'none';
+        }
+    });
+</script>
+
+
+    <script>document.getElementById('add-address-btn').addEventListener('click', function() {
+        // Toggle the visibility of the billing details form
+        var billingForm = document.getElementById('billing-details-form');
+        if (billingForm.style.display === 'none' || billingForm.style.display === '') {
+            billingForm.style.display = 'block';  // Show the form
+        } else {
+            billingForm.style.display = 'none';  // Hide the form
+        }
+    });
+    </script>
+
+
+
+    <script>
+        function copyCouponCode(code) {
+            // Create a temporary input element to copy the text
+            var tempInput = document.createElement("input");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-9999px";  // Hide the input element
+            tempInput.value = code;  // Set the value to the coupon code
+    
+            // Append the input element to the document body
+            document.body.appendChild(tempInput);
+            tempInput.select();  // Select the input field
+    
+            try {
+                // Execute the copy command
+                document.execCommand("copy");
+                alert("Coupon code copied: " + code);  // Show an alert for successful copy
+            } catch (err) {
+                console.error("Failed to copy coupon code:", err);
+            }
+    
+            // Remove the temporary input element
+            document.body.removeChild(tempInput);
+        }
+    </script>
+    
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+
+<!-- molla/checkout.html  22 Nov 2019 09:55:06 GMT -->
+</html>

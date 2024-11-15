@@ -1,0 +1,986 @@
+{% load static %}
+<!DOCTYPE html>
+
+
+
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template" data-style="light">
+
+  
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:47:18 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>Dashboard - eCommerce | Materio - Bootstrap Material Design Admin Template</title>
+
+    
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
+    <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+    
+    
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '../../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap" rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/fonts/remixicon/remixicon.css' %}" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/fonts/flag-icons.css' %}" />
+    
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/node-waves/node-waves.css' %}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/css/rtl/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/css/rtl/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/css/demo.css' %}" />
+    
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/typeahead-js/typeahead.css' %}" /> 
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/apex-charts/apex-charts.css' %}" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/css/pages/app-ecommerce-dashboard.css' %}" />
+
+    <!-- Helpers -->
+    <script src="{% static 'aassets/dashboard-assets/vendor/js/helpers.js' %}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+    {% comment %} <script src="{% static 'aassets/dashboard-assets/vendor/js/template-customizer.js' %}"></script> {% endcomment %}
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{% static 'aassets/dashboard-assets/js/config.js' %}"></script>
+    <style>
+      .col-xll-8 {
+        flex: 0 0 auto;
+        width: 50%;
+      }
+      .col-xll-4 {
+        flex: 0 0 auto;
+        width: 50%;
+      }
+      body {
+          font-family: 'Arial', sans-serif;
+          background-color: #f4f7fa;
+          margin: 0;
+          padding: 20px;
+          color: #333;
+      }
+      .container {
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+      h2 {
+          color: #2c3e50;
+          margin-bottom: 20px;
+      }
+      .row {
+          display: flex;
+          flex-wrap: wrap;
+          margin: -10px;
+      }
+      .col-md-3 {
+          flex: 0 0 25%;
+          padding: 10px;
+          box-sizing: border-box;
+      }
+      .card {
+          background-color: #fff;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          transition: transform 0.3s ease;
+      }
+      .card:hover {
+          transform: translateY(-5px);
+      }
+      .card-body {
+          padding: 20px;
+      }
+      .card-title {
+          font-size: 24px;
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #3498db;
+      }
+      .text-muted {
+          color: #7f8c8d;
+      }
+      .table {
+          width: 100%;
+          border-collapse: collapse;
+          background-color: #fff;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          border-radius: 8px;
+          overflow: hidden;
+          margin-top: 20px;
+      }
+      .table th, .table td {
+          padding: 12px 15px;
+          text-align: left;
+      }
+      .table thead {
+          background-color: #000000; /* Changed to black */
+          color: #fff;
+      }
+      .table tbody tr:nth-child(even) {
+          background-color: #f2f2f2;
+      }
+      .table tbody tr:hover {
+          background-color: #e6f2ff;
+      }
+      .discount {
+          color: #e74c3c;
+      }
+      .total {
+          font-weight: bold;
+          color: #2ecc71;
+      }
+      .status {
+          padding: 5px 10px;
+          border-radius: 20px;
+          font-size: 0.9em;
+      }
+      .success {
+          background-color: #2ecc71;
+          color: #fff;
+      }
+      .pending {
+          background-color: #f39c12;
+          color: #fff;
+      }
+      .icon-card {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+      }
+      .icon-card i {
+          font-size: 48px;
+          color: #3498db;
+      }
+  </style>
+    
+</head>
+
+<body>
+
+  
+  <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  
+  <!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar  ">
+  <div class="layout-container">
+
+    
+    
+
+
+
+
+<!-- Menu -->
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+  
+  <div class="app-brand demo ">
+    <a href="index.html" class="app-brand-link">
+      <span class="app-brand-logo demo me-1">
+<span style="color:var(--bs-primary);">
+ 
+</span>
+</span>
+<img  src="{% static 'assets/images/venet/icon.jpg' %}" alt="Venet Logo" width="105" height="25">
+    </a>
+
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+      <i class="menu-toggle-icon d-xl-block align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-inner-shadow"></div>
+
+  
+  
+  <ul class="menu-inner py-1">
+
+
+
+    <!-- Apps & Pages -->
+    <li class="menu-header mt-7">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Apps &amp; Pages</span>
+    </li>
+    <!-- e-commerce-app menu start -->
+    <li class="menu-item active open">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
+        <div data-i18n="eCommerce">eCommerce</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item active">
+          <a href="app-ecommerce-dashboard.html" class="menu-link">
+            <div data-i18n="Dashboard">Dashboard</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Products">Product</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/Admin/product_list" class="menu-link">
+                <div data-i18n="Product List">Product List</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="/Admin/add_product" class="menu-link">
+                <div data-i18n="Add Product">Add Product</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="/Admin/category_list" class="menu-link">
+                <div data-i18n="Category List">Category List</div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Order">Order</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="{% url 'order_list' %}" class="menu-link">
+                <div data-i18n="Order List">Order List</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="app-ecommerce-order-details.html" class="menu-link">
+                <div data-i18n="Order Details">Order Details</div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Customer">Customer</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/Admin/all_customer" class="menu-link">
+                <div data-i18n="All Customers">All Customers</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div data-i18n="Customer Details">Customer Details</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-overview.html" class="menu-link">
+                    <div data-i18n="Overview">Overview</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-security.html" class="menu-link">
+                    <div data-i18n="Security">Security</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-billing.html" class="menu-link">
+                    <div data-i18n="Address & Billing">Address & Billing</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-notifications.html" class="menu-link">
+                    <div data-i18n="Notifications">Notifications</div>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="app-ecommerce-manage-reviews.html" class="menu-link">
+            <div data-i18n="Manage Reviews">Manage Reviews</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{% url 'sales_report' %}" class="menu-link">
+            <div data-i18n="Sales Report ">Sales Report </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Coupon & Offer">Coupon & Offer</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="{% url 'coupon' %}" class="menu-link">
+                <div data-i18n="Coupon">Coupon</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="{% url 'offer' %}" class="menu-link">
+                <div data-i18n="Offer">Offer</div>
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <!-- e-commerce-app menu end -->
+    
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons ri-bill-line'></i>
+        <div data-i18n="Invoice">Invoice</div>
+        <div class="badge bg-danger rounded-pill ms-auto">6</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="app-invoice-list.html" class="menu-link">
+            <div data-i18n="List">List</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-preview.html" class="menu-link">
+            <div data-i18n="Preview">Preview</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-edit.html" class="menu-link">
+            <div data-i18n="Edit">Edit</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-add.html" class="menu-link">
+            <div data-i18n="Add">Add</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+  
+  
+
+</aside>
+<!-- / Menu -->
+
+    
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      
+      
+
+
+
+<!-- Navbar -->
+
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+  
+
+  
+
+      
+      
+
+      
+      
+      <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+          <i class="ri-menu-fill ri-24px"></i>
+        </a>
+      </div>
+      
+
+      <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+        
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+          <div class="nav-item navbar-search-wrapper mb-0">
+            <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
+              <i class="ri-search-line ri-22px scaleX-n1-rtl me-1_5"></i>
+              <span class="d-none d-md-inline-block text-muted ms-1_5">Search (Ctrl+/)</span>
+            </a>
+          </div>
+        </div>
+        <!-- /Search -->
+        
+        
+
+        
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+          
+          
+          <!-- Language -->
+          <li class="nav-item dropdown-language dropdown">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <i class='ri-translate-2 ri-22px'></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end py-2">
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="en" data-text-direction="ltr">
+                  <span class="align-middle">English</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="fr" data-text-direction="ltr">
+                  <span class="align-middle">Malayalam</span>
+                </a>
+            </ul>
+          </li>
+          <!--/ Language -->
+          
+          <!-- Style Switcher -->
+          <li class="nav-item dropdown-style-switcher dropdown">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <i class='ri-22px'></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                  <span class="align-middle"><i class='ri-sun-line ri-22px me-3'></i>Light</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                  <span class="align-middle"><i class="ri-moon-clear-line ri-22px me-3"></i>Dark</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                  <span class="align-middle"><i class="ri-computer-line ri-22px me-3"></i>System</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- / Style Switcher-->
+        
+
+          <!-- User -->
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <div class="avatar avatar-online">
+                <img src="{% static 'aassets/dashboard-assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-account.html">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-2">
+                      <div class="avatar avatar-online">
+                        <img src="{% static 'aassets/dashboard-assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0 small">Nasif Ali</h6>
+                      <small class="text-muted">Admin</small>
+
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-profile-user.html">
+                  <i class="ri-user-3-line ri-22px me-2"></i>
+                  <span class="align-middle">My Profile</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-account.html">
+                  <i class="ri-settings-4-line ri-22px me-2"></i>
+                  <span class="align-middle">Sales Report</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-billing.html">
+                  <span class="d-flex align-items-center align-middle">
+                    <i class="flex-shrink-0 ri-file-text-line ri-22px me-2"></i>
+                    <span class="flex-grow-1 align-middle">Billing</span>
+                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger h-px-20 d-flex align-items-center justify-content-center">3</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-pricing.html">
+                  <i class="ri-money-dollar-circle-line ri-22px me-2"></i>
+                  <span class="align-middle">Pricing</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-faq.html">
+                  <i class="ri-question-line ri-22px me-2"></i>
+                  <span class="align-middle">FAQ</span>
+                </a>
+              </li>
+              <li>
+                <div class="d-grid px-4 pt-2 pb-1">
+                  <a class="btn btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                    <small class="align-middle">Logout</small>
+                    <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!--/ User -->
+          
+
+
+        </ul>
+      </div>
+
+      
+      <!-- Search Small Screens -->
+      <div class="navbar-search-wrapper search-input-wrapper  d-none">
+        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..." aria-label="Search...">
+        <i class="ri-close-fill search-toggler cursor-pointer"></i>
+      </div>
+      
+      
+  
+</nav>
+
+<!-- / Navbar -->
+
+      
+
+      <!-- Content wrapper -->
+<div class="content-wrapper">
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <h2>Dashboard</h2>
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item">
+        <select class="form-control" id="intervalSelect" style="width: auto; margin-left: 1rem;" onchange="revenueInterval()">
+          <option value="all" {% if selected_interval == 'all' %}selected{% endif %}>All Data</option>
+          <option value="weekly" {% if selected_interval == 'weekly' %}selected{% endif %}>This Week</option>
+          <option value="monthly" {% if selected_interval == 'monthly' %}selected{% endif %}>Monthly</option>
+          <option value="yearly" {% if selected_interval == 'yearly' %}selected{% endif %}>Yearly</option>
+      </select>      
+      </li>
+    </ul>
+    
+<div class="row gy-6">
+  <div class="col-xll-4 col-lg-5">
+    <div class="col-sm-12">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="mb-0">Order Status</h5>
+        </div>
+        <div class="card-body">
+          <!-- Pie Chart -->
+          <canvas id="orderStatusChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/ Cards with icon profit and loss info -->
+  <!-- Total Profit Chart & Last month balance -->
+  <div class="col-xll-8">
+    <div class="card h-100">
+      <div class="card-header">
+        <h5 class="mb-0">Order Status Bar Chart</h5>
+      </div>
+      <div class="card-body">
+        <!-- Bar Chart -->
+        <canvas id="orderStatusBarChart"></canvas>
+      </div>
+    </div>
+  </div>
+  <!--/ Total Profit Chart & Last month balance -->
+  <!-- three chart -->
+  <div class="col-xl-4">
+    <div class="row gy-6">
+      <!-- Total Sales -->
+      <div class="col-xl-12 col-md-6">
+        <div class="card h-100">
+          <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+            <div class="me-3">
+              <h5 class="mb-1">Total Sales Amount</h5>
+              
+              <div class="d-flex align-items-center">
+                <h4 class="card-title">RS: {{ total_razorpay_sales|floatformat:2 }}</h4>
+                <p class="text-success mb-0"> <i class="ri-arrow-up-s-line ri-24px"></i>15.6%</p>
+              </div>
+            </div>
+            <div id="totalSalesDonutChart" class="mt-3 mt-md-0"></div>
+          </div>
+        </div>
+      </div>
+      <!-- Total Sales -->
+    </div>
+  </div>
+  
+  <div class="col-sm-6">
+    <div class="card">
+      <div class="card-header d-flex align-items-center justify-content-between">
+        <div class="avatar">
+          <div class="avatar-initial bg-danger rounded-circle shadow-xs">
+            <i class="ri-car-line ri-24px"></i>
+          </div>
+        </div>
+        <div class="dropdown">
+          <button class="btn text-muted p-0" type="button" id="logisticsID" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="ri-more-2-line ri-24px"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="logisticsID">
+            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
+            <a class="dropdown-item" href="javascript:void(0);">Share</a>
+            <a class="dropdown-item" href="javascript:void(0);">Update</a>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <h6 class="mb-1">Total Orders</h6>
+        <div class="d-flex flex-wrap mb-1 align-items-center">
+          <h4 class="mb-0 me-1">{{ total_orders }}</h4> <!-- Total number of orders -->
+          <p class="text-success mb-0">+42%</p>
+        </div>
+        <small>Total Orders</small>
+      </div>
+    </div>
+  </div>
+
+
+  <div style="width: 30%; border: 1px solid #ddd; border-radius: 5px; padding: 16px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+    <h4 style="margin-bottom: 16px; font-size: 18px;">Top 10 Best Selling Product</h4>
+    <div>
+        {% if top_products %}
+            {% for product in top_products %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd;">
+                    <div style="display: flex; align-items: center;">
+                        <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>  <!-- Rank Number -->
+                        <span>{{ product.product__title }}</span>
+                    </div>
+                    <span style="background-color: #007bff; color: white; padding: 5px 10px; border-radius: 15px;">{{ product.total_ordered }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No products ordered yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Top Categories -->
+<div style="width: 30%; border: 1px solid #ddd; border-radius: 5px; padding: 16px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+    <h4 style="margin-bottom: 16px; font-size: 18px;">Top 10 Best Selling Categories</h4>
+    <div>
+        {% if top_categories %}
+            {% for category in top_categories %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd;">
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>  <!-- Rank Number -->
+                    <span>{{ category.product__category__title }}</span>
+                    <span style="background-color: #17a2b8; color: white; padding: 5px 10px; border-radius: 15px;">{{ category.total_ordered }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No categories ordered yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Top Brands -->
+<div style="width: 30%; border: 1px solid #ddd; border-radius: 5px; padding: 16px; box-shadow: 2px 2px 5px rgba(0,0,0,0.1);">
+    <h4 style="margin-bottom: 16px; font-size: 18px;">Top 10 Best Selling Brands</h4>
+    <div>
+        {% if top_brands %}
+            {% for brand in top_brands %}
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #ddd;">
+                    <span style="font-weight: bold; margin-right: 10px;">{{ forloop.counter }}.</span>  <!-- Rank Number -->
+                    <span>{{ brand.product__brand__name }}</span>
+                    <span style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 15px;">{{ brand.total_ordered }}</span>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No brands ordered yet.</p>
+        {% endif %}
+    </div>
+</div>
+  <table class="table">
+    <thead>
+        <tr>
+            <th>Order Id</th>
+            <th>Customer Name</th>
+            <th>Order Date</th>
+            <th>Total Amount</th>
+            <th>Payment Method</th>
+            <th>Payment Status</th>
+            <th>Order Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in order_details %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                <td class="total">RS: {{ order.total_amount|floatformat:2 }}</td>
+                <td>{{ order.get_payment_method_display }}</td>
+                <td>
+                    <span class="status {% if order.payment_status == 'completed' %} success {% else %} failed {% endif %}">
+                        {{ order.payment_status }}
+                    </span>
+                </td>
+                <td>
+                    <span class="status {% if order.orderstatus.status == 'delivered' %} success {% elif order.orderstatus.status == 'pending' %} pending {% else %} cancelled {% endif %}">
+                        {{ order.orderstatus.get_status_display }}
+                    </span>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7">No orders found for this date range.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<!-- Pagination Controls -->
+<div class="pagination-container">
+    <ul class="pagination">
+        {% if order_details.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">First</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ order_details.previous_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">Previous</a>
+            </li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link">{{ order_details.number }}</a></li>
+
+        {% if order_details.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ order_details.next_page_number }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">Next</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ order_details.paginator.num_pages }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}">Last</a>
+            </li>
+        {% endif %}
+    </ul>
+</div>
+  
+</div>
+
+          </div>
+          <!-- / Content -->
+
+          
+          
+
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+  <div class="container-xxl">
+    <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+      <div class="text-body mb-2 mb-md-0">
+        © <script>
+        document.write(new Date().getFullYear())
+
+        </script>, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a href="https://themeselection.com/" target="_blank" class="footer-link">ThemeSelection</a>
+      </div>
+      <div class="d-none d-lg-inline-block">
+        
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+        
+        <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
+        
+        
+        <a href="https://themeselection.com/support/" target="_blank" class="footer-link d-none d-sm-inline-block">Support</a>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->
+
+          
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    
+    
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+    
+    
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+    
+  </div>
+  <!-- / Layout wrapper -->
+
+  
+  
+  
+
+  <div class="container">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/popper/popper.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/js/bootstrap.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/node-waves/node-waves.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/hammer/hammer.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/i18n/i18n.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/typeahead-js/typeahead.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/js/menu.js' %}"></script>
+  
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/apex-charts/apexcharts.js' %}"></script>
+
+  <!-- Main JS -->
+  <script src="{% static 'aassets/dashboard-assets/js/main.js' %}"></script>
+  
+
+  
+  <!-- Include Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Dynamically insert data from Django context
+  var deliveredOrders = {{ delivered_orders }};
+  var pendingOrders = {{ pending_orders }};
+  var shippedOrders = {{ shipped_orders }};
+
+  // Get the context of the canvas element
+  var ctx = document.getElementById('orderStatusChart').getContext('2d');
+
+  // Create the Pie chart
+  var orderStatusChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Delivered', 'Pending', 'Shipped'],  // Pie chart labels
+      datasets: [{
+        label: 'Order Status',
+        data: [deliveredOrders, pendingOrders, shippedOrders], // Data for pie chart
+        backgroundColor: ['#28a745', '#ffc107', '#007bff'], // Colors: Green for Delivered, Yellow for Pending, Blue for Shipped
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.label + ': ' + tooltipItem.raw + ' orders';
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+
+<!-- Include Chart.js Library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  // Dynamically insert data from Django context
+  var deliveredOrders = {{ delivered_orders }};
+  var pendingOrders = {{ pending_orders }};
+  var shippedOrders = {{ shipped_orders }};
+
+  // Get the context of the canvas element
+  var ctxBar = document.getElementById('orderStatusBarChart').getContext('2d');
+
+  // Create the Bar chart
+  var orderStatusBarChart = new Chart(ctxBar, {
+    type: 'bar', // Type of chart (Bar chart)
+    data: {
+      labels: ['Delivered', 'Pending', 'Shipped'],  // X-axis labels (order statuses)
+      datasets: [{
+        label: 'Order Status Count', // The label for the dataset
+        data: [deliveredOrders, pendingOrders, shippedOrders], // Data for the bar chart
+        backgroundColor: '#007bff', // Color for bars
+        borderColor: '#0056b3', // Border color for bars
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true, // Make it responsive on different screen sizes
+      scales: {
+        y: {
+          beginAtZero: true, // Start Y-axis at zero
+          title: {
+            display: true,
+            text: 'Order Count' // Y-axis title
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          position: 'top', // Position of the legend
+        },
+        tooltip: {
+          callbacks: {
+            label: function(tooltipItem) {
+              return tooltipItem.label + ': ' + tooltipItem.raw + ' orders'; // Display count in tooltip
+            }
+          }
+        }
+      }
+    }
+  });
+</script>
+<script>
+  function revenueInterval() {
+    const interval = document.getElementById('intervalSelect').value;
+    const url = new URL(window.location.href);
+    url.searchParams.set('interval', interval);
+    window.location.href = url;
+  }
+</script>
+  
+
+    
+</body>
+
+
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:47:59 GMT -->
+</html>
+
+<!-- beautify ignore:end -->
+

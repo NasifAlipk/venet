@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fa;
+            color: #333;
+        }
+
+        /* Header Section */
+        .invoice-header {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        .invoice-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Billing Address Section */
+        .address {
+            background-color: #ecf0f1;
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-left: 6px solid #3498db;
+            background: linear-gradient(to right, #ecf0f1, #f9fafb);
+        }
+
+        .address div {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+
+        .address strong {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .address .address-title {
+            font-size: 18px;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .address .address-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            vertical-align: middle;
+            color: #3498db;
+        }
+
+        .address .line {
+            border-bottom: 1px solid #ddd;
+            margin: 10px 0;
+        }
+
+        /* Order Details Section */
+        .order-details {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .order-details div {
+            margin-bottom: 10px;
+        }
+
+        /* Order Items Table */
+        .order-items table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .order-items th,
+        .order-items td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .order-items th {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .order-items tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .order-items tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Total Section */
+        .total {
+            margin-top: 30px;
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .total p {
+            margin: 5px 0;
+        }
+
+        .total p strong {
+            color: #e74c3c;
+        }
+
+        .total .discount {
+            color: #f39c12;
+        }
+
+        /* Footer Section */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invoice-header">
+        <h1>Invoice</h1>
+    </div>
+
+    <div class="address">
+        <div><strong>Billing Address:</strong></div>
+        <div>{{ order.address.street_address }}</div>
+        <div>{{ order.address.city }}</div>
+        <div>{{ order.address.state }}</div>
+        <div>{{ order.address.zipcode }}</div>
+        <div>{{ order.address.country }}</div>
+    </div>
+
+    <div class="order-details">
+        <div><strong>Order Number:</strong> {{ order.id }}</div>
+        <div><strong>Date:</strong> {{ order.created_at }}</div>
+        <div><strong>Payment Type:</strong> {{ order.get_payment_method_display }}</div>
+        <div><strong>Status:</strong> {{ order.orderstatus.status }}</div>
+    </div>
+
+    <div class="order-items">
+        <h3>Order Items:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    {% comment %} <th>Discount</th> {% endcomment %}
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                    <tr>
+                        <td>{{ item.product.title }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.price }}</td>
+                        {% comment %} <td>${{ order.discount_amount|floatformat:2 }}</td> {% endcomment %}
+                        <td>${{ order.total_amount }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No items in this order</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="total">
+        <p><strong>Grand Total: </strong>${{ order.total_amount }}</p>
+        {% if order.discount_amount %}
+            <p><strong>Discount: </strong>${{ order.discount_amount|floatformat:2 }}</p>
+        {% endif %}
+    </div>
+    <!-- Footer Section -->
+    <div class="footer">
+        <p>Thank you for your business!</p>
+        <p>If you have any questions, feel free to contact us.</p>
+    </div>
+
+</body>
+</html>

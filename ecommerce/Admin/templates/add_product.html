@@ -1,0 +1,1132 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-navbar-fixed layout-menu-fixed layout-compact " dir="ltr" data-theme="theme-default" data-assets-path="../../assets/" data-template="vertical-menu-template" data-style="light">
+
+  
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-product-add.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:30 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+    <title>eCommerce Add Product - Apps | Materio - Bootstrap Material Design Admin Template</title>
+
+    
+    <meta name="description" content="Start your development with a Dashboard for Bootstrap 5" />
+    <meta name="keywords" content="dashboard, material, material design, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+    <!-- Canonical SEO -->
+    <link rel="canonical" href="https://themeselection.com/item/materio-bootstrap-html-admin-template/">
+    
+    
+    <!-- ? PROD Only: Google Tag Manager (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      '../../../../www.googletagmanager.com/gtm5445.html?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5DDHKGP');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/assets/img/favicon/favicon.ico" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;ampdisplay=swap" rel="stylesheet">
+    <!--CROPING JS-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/fonts/remixicon/remixicon.css' %}" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/fonts/flag-icons.css' %}" />
+    
+    <!-- Menu waves for no-customizer fix -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/node-waves/node-waves.css' %}" />
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/css/rtl/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/css/rtl/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/css/demo.css' %}" />
+    
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/typeahead-js/typeahead.css' %}" /> 
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/quill/typography.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/quill/katex.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/quill/editor.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/select2/select2.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/dropzone/dropzone.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/flatpickr/flatpickr.css' %}">
+    <link rel="stylesheet" href="{% static 'aassets/dashboard-assets/vendor/libs/tagify/tagify.css' %}" />
+
+    <!-- Page CSS -->
+    
+
+    <!-- Helpers -->
+    <script src="{% static 'aassets/dashboard-assets/vendor/js/helpers.js' %}"></script>
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Template customizer: To hide customizer set displayCustomizer value false in config.js.  -->
+   
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="{% static 'aassets/dashboard-assets/js/config.js' %}"></script>
+
+    <style>
+      .image-input-container {
+        position: relative;
+        height: 270px;
+        border: 2px dashed #ddd;
+        border-radius: 5px;
+        overflow: hidden;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    
+      .image-input {
+        position: absolute;
+        height: 270px;
+        width: 100%;
+        opacity: 0;
+        cursor: pointer;
+      }
+    
+      .image-placeholder {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #aaa;
+        font-size: 14px;
+        pointer-events: none;
+      }
+    
+      .img-thumbnail {
+        height: 70px;
+        display: none;
+      }
+    </style>
+    
+</head>
+
+<body>
+
+  
+  <!-- ?PROD Only: Google Tag Manager (noscript) (Default ThemeSelection: GTM-5DDHKGP, PixInvent: GTM-5J3LMKC) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5DDHKGP" height="0" width="0" style="display: none; visibility: hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  
+  <!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar  ">
+  <div class="layout-container">
+
+    
+    
+
+
+
+
+<!-- Menu -->
+
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+
+  
+  <div class="app-brand demo ">
+    <a href="index.html" class="app-brand-link">
+      <span class="app-brand-logo demo me-1">
+<span style="color:var(--bs-primary);">
+</span>
+</span>
+    <img  src="{% static 'assets/images/venet/icon.jpg' %}" alt="Venet Logo" width="105" height="30">
+    </a>
+
+    <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
+      <i class="menu-toggle-icon d-xl-block align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-inner-shadow"></div>
+
+  
+  
+  <ul class="menu-inner py-1">
+    
+    <li class="menu-header mt-7">
+      <span class="menu-header-text" data-i18n="Apps & Pages">Apps &amp; Pages</span>
+    </li>
+    <!-- e-commerce-app menu start -->
+    <li class="menu-item active open">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons ri-shopping-bag-3-line'></i>
+        <div data-i18n="eCommerce">eCommerce</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{% url 'dashboard' %}" class="menu-link">
+            <div data-i18n="Dashboard">Dashboard</div>
+          </a>
+        </li>
+        <li class="menu-item active open">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Products">Products</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/Admin/product_list" class="menu-link">
+                <div data-i18n="Product List">Product List</div>
+              </a>
+            </li>
+            <li class="menu-item active">
+              <a href="" class="menu-link">
+                <div data-i18n="Add Product">Add Product</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="/Admin/category_list" class="menu-link">
+                <div data-i18n="Category List">Category List</div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Order">Order</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="{% url 'order_list' %}" class="menu-link">
+                <div data-i18n="Order List">Order List</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="app-ecommerce-order-details.html" class="menu-link">
+                <div data-i18n="Order Details">Order Details</div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Customer">Customer</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="/Admin/all_customer" class="menu-link">
+                <div data-i18n="All Customers">All Customers</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <div data-i18n="Customer Details">Customer Details</div>
+              </a>
+              <ul class="menu-sub">
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-overview.html" class="menu-link">
+                    <div data-i18n="Overview">Overview</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-security.html" class="menu-link">
+                    <div data-i18n="Security">Security</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-billing.html" class="menu-link">
+                    <div data-i18n="Address & Billing">Address & Billing</div>
+                  </a>
+                </li>
+                <li class="menu-item">
+                  <a href="app-ecommerce-customer-details-notifications.html" class="menu-link">
+                    <div data-i18n="Notifications">Notifications</div>
+                  </a>
+                </li>
+
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="menu-item">
+          <a href="app-ecommerce-manage-reviews.html" class="menu-link">
+            <div data-i18n="Manage Reviews">Manage Reviews</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="{% url 'sales_report' %}" class="menu-link">
+            <div data-i18n="Sales Report ">Sales Report </div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="javascript:void(0);" class="menu-link menu-toggle">
+            <div data-i18n="Coupon & Offer">Coupon & Offer</div>
+          </a>
+          <ul class="menu-sub">
+            <li class="menu-item">
+              <a href="{% url 'coupon' %}" class="menu-link">
+                <div data-i18n="Coupon">Coupon</div>
+              </a>
+            </li>
+            <li class="menu-item">
+              <a href="app-ecommerce-settings-payments.html" class="menu-link">
+                <div data-i18n="Offer">Offer</div>
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <!-- e-commerce-app menu end -->
+    
+    
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class='menu-icon tf-icons ri-bill-line'></i>
+        <div data-i18n="Invoice">Invoice</div>
+        <div class="badge bg-danger rounded-pill ms-auto">4</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="app-invoice-list.html" class="menu-link">
+            <div data-i18n="List">List</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-preview.html" class="menu-link">
+            <div data-i18n="Preview">Preview</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-edit.html" class="menu-link">
+            <div data-i18n="Edit">Edit</div>
+          </a>
+        </li>
+        <li class="menu-item">
+          <a href="app-invoice-add.html" class="menu-link">
+            <div data-i18n="Add">Add</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+</aside>
+<!-- / Menu -->
+
+    
+
+    <!-- Layout container -->
+    <div class="layout-page">
+      
+      
+
+
+
+<!-- Navbar -->
+
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+  
+
+  
+
+      
+      
+
+      
+      
+      <div class="layout-menu-toggle navbar-nav align-items-xl-center me-4 me-xl-0   d-xl-none ">
+        <a class="nav-item nav-link px-0 me-xl-6" href="javascript:void(0)">
+          <i class="ri-menu-fill ri-24px"></i>
+        </a>
+      </div>
+      
+
+      <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+
+        
+        <!-- Search -->
+        <div class="navbar-nav align-items-center">
+          <div class="nav-item navbar-search-wrapper mb-0">
+            <a class="nav-item nav-link search-toggler fw-normal px-0" href="javascript:void(0);">
+              <i class="ri-search-line ri-22px scaleX-n1-rtl me-1_5"></i>
+              <span class="d-none d-md-inline-block text-muted ms-1_5">Search (Ctrl+/)</span>
+            </a>
+          </div>
+        </div>
+        <!-- /Search -->
+        
+        
+
+        
+
+        <ul class="navbar-nav flex-row align-items-center ms-auto">
+
+          
+          
+          <!-- Language -->
+          <li class="nav-item dropdown-language dropdown">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <i class='ri-translate-2 ri-22px'></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end py-2">
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="en" data-text-direction="ltr">
+                  <span class="align-middle">English</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="fr" data-text-direction="ltr">
+                  <span class="align-middle">French</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="ar" data-text-direction="rtl">
+                  <span class="align-middle">Arabic</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-language="de" data-text-direction="ltr">
+                  <span class="align-middle">German</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!--/ Language -->
+          
+          <!-- Style Switcher -->
+          <li class="nav-item dropdown-style-switcher dropdown">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <i class='ri-22px'></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-styles">
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="light">
+                  <span class="align-middle"><i class='ri-sun-line ri-22px me-3'></i>Light</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="dark">
+                  <span class="align-middle"><i class="ri-moon-clear-line ri-22px me-3"></i>Dark</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="javascript:void(0);" data-theme="system">
+                  <span class="align-middle"><i class="ri-computer-line ri-22px me-3"></i>System</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <!-- / Style Switcher-->
+          
+          <!-- Quick links  -->
+          <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+              <i class='ri-star-smile-line ri-22px'></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end py-0">
+              <div class="dropdown-menu-header border-bottom py-50">
+                <div class="dropdown-header d-flex align-items-center py-2">
+                  <h6 class="mb-0 me-auto">Shortcuts</h6>
+                  <a href="javascript:void(0)" class="btn btn-text-secondary rounded-pill btn-icon dropdown-shortcuts-add" data-bs-toggle="tooltip" data-bs-placement="top" title="Add shortcuts"><i class="ri-layout-grid-line ri-24px text-heading"></i></a>
+                </div>
+              </div>
+              <div class="dropdown-shortcuts-list scrollable-container">
+                <div class="row row-bordered overflow-visible g-0">
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-calendar-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="app-calendar.html" class="stretched-link">Calendar</a>
+                    <small>Appointments</small>
+                  </div>
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-file-text-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="app-invoice-list.html" class="stretched-link">Invoice App</a>
+                    <small>Manage Accounts</small>
+                  </div>
+                </div>
+                <div class="row row-bordered overflow-visible g-0">
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-user-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="app-user-list.html" class="stretched-link">User App</a>
+                    <small>Manage Users</small>
+                  </div>
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-computer-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="app-access-roles.html" class="stretched-link">Role Management</a>
+                    <small>Permission</small>
+                  </div>
+                </div>
+                <div class="row row-bordered overflow-visible g-0">
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-pie-chart-2-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="index.html" class="stretched-link">Dashboard</a>
+                    <small>Analytics</small>
+                  </div>
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-settings-4-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="pages-account-settings-account.html" class="stretched-link">Setting</a>
+                    <small>Account Settings</small>
+                  </div>
+                </div>
+                <div class="row row-bordered overflow-visible g-0">
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-question-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="pages-faq.html" class="stretched-link">FAQs</a>
+                    <small class="text-muted mb-0">FAQs & Articles</small>
+                  </div>
+                  <div class="dropdown-shortcuts-item col">
+                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
+                      <i class="ri-tv-2-line ri-26px text-heading"></i>
+                    </span>
+                    <a href="modal-examples.html" class="stretched-link">Modals</a>
+                    <small>Useful Popups</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- Quick links -->
+
+          <!-- Notification -->
+          <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-4 me-xl-1">
+            <a class="nav-link btn btn-text-secondary rounded-pill btn-icon dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+              <i class="ri-notification-2-line ri-22px"></i>
+              <span class="position-absolute top-0 start-50 translate-middle-y badge badge-dot bg-danger mt-2 border"></span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end py-0">
+              <li class="dropdown-menu-header border-bottom">
+                <div class="dropdown-header d-flex align-items-center py-3">
+                  <h6 class="mb-0 me-auto">Notification</h6>
+                  <div class="d-flex align-items-center">
+                    <span class="badge rounded-pill bg-label-primary me-2">8 New</span>
+                    <a href="javascript:void(0)" class="btn btn-text-secondary rounded-pill btn-icon dropdown-notifications-all" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark all as read"><i class="ri-mail-open-line ri-20px text-body"></i></a>
+                  </div>
+                </div>
+              </li>
+              <li class="dropdown-notifications-list scrollable-container">
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <img src="{% static 'aassets/dashboard-assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="small mb-1">Congratulation Lettie 🎉</h6>
+                        <small class="mb-1 d-block text-body">Won the monthly best seller gold badge</small>
+                        <small class="text-muted">1h ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <span class="avatar-initial rounded-circle bg-label-danger">CF</span>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">Charles Franklin</h6>
+                        <small class="mb-1 d-block text-body">Accepted your connection</small>
+                        <small class="text-muted">12hr ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <img src="{% static 'aassets/dashboard-assets/img/avatars/2.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">New Message ✉️</h6>
+                        <small class="mb-1 d-block text-body">You have new message from Natalie</small>
+                        <small class="text-muted">1h ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <span class="avatar-initial rounded-circle bg-label-success"><i class="ri-shopping-cart-2-line"></i></span>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">Whoo! You have new order 🛒 </h6>
+                        <small class="mb-1 d-block text-body">ACME Inc. made new order $1,154</small>
+                        <small class="text-muted">1 day ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <img src="{% static 'aassets/dashboard-assets/img/avatars/9.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">Application has been approved 🚀 </h6>
+                        <small class="mb-1 d-block text-body">Your ABC project application has been approved.</small>
+                        <small class="text-muted">2 days ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <span class="avatar-initial rounded-circle bg-label-success"><i class="ri-pie-chart-2-line"></i></span>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">Monthly report is generated</h6>
+                        <small class="mb-1 d-block text-body">July monthly financial report is generated </small>
+                        <small class="text-muted">3 days ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <img src="{% static 'aassets/dashboard-assets/img/avatars/5.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">Send connection request</h6>
+                        <small class="mb-1 d-block text-body">Peter sent you connection request</small>
+                        <small class="text-muted">4 days ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <img src="{% static 'aassets/dashboard-assets/img/avatars/6.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">New message from Jane</h6>
+                        <small class="mb-1 d-block text-body">Your have new message from Jane</small>
+                        <small class="text-muted">5 days ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
+                    <div class="d-flex">
+                      <div class="flex-shrink-0 me-3">
+                        <div class="avatar">
+                          <span class="avatar-initial rounded-circle bg-label-warning"><i class="ri-error-warning-line"></i></span>
+                        </div>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-1 small">CPU is running high</h6>
+                        <small class="mb-1 d-block text-body">CPU Utilization Percent is currently at 88.63%,</small>
+                        <small class="text-muted">5 days ago</small>
+                      </div>
+                      <div class="flex-shrink-0 dropdown-notifications-actions">
+                        <a href="javascript:void(0)" class="dropdown-notifications-read"><span class="badge badge-dot"></span></a>
+                        <a href="javascript:void(0)" class="dropdown-notifications-archive"><span class="ri-close-line"></span></a>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+              <li class="border-top">
+                <div class="d-grid p-4">
+                  <a class="btn btn-primary btn-sm d-flex" href="javascript:void(0);">
+                    <small class="align-middle">View all notifications</small>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!--/ Notification -->
+
+          <!-- User -->
+          <li class="nav-item navbar-dropdown dropdown-user dropdown">
+            <a class="nav-link dropdown-toggle hide-arrow p-0" href="javascript:void(0);" data-bs-toggle="dropdown">
+              <div class="avatar avatar-online">
+                <img src="{% static 'aassets/dashboard-assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+              </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end mt-3 py-2">
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-account.html">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0 me-2">
+                      <div class="avatar avatar-online">
+                        <img src="{% static 'aassets/dashboard-assets/img/avatars/1.png' %}" alt class="w-px-40 h-auto rounded-circle">
+                      </div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <h6 class="mb-0 small">Nasif Ali</h6>
+                      <small class="text-muted">Admin</small>
+
+                    </div>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-profile-user.html">
+                  <i class="ri-user-3-line ri-22px me-2"></i>
+                  <span class="align-middle">My Profile</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-account.html">
+                  <i class="ri-settings-4-line ri-22px me-2"></i>
+                  <span class="align-middle">Settings</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-account-settings-billing.html">
+                  <span class="d-flex align-items-center align-middle">
+                    <i class="flex-shrink-0 ri-file-text-line ri-22px me-2"></i>
+                    <span class="flex-grow-1 align-middle">Billing</span>
+                    <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger h-px-20 d-flex align-items-center justify-content-center">4</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <div class="dropdown-divider"></div>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-pricing.html">
+                  <i class="ri-money-dollar-circle-line ri-22px me-2"></i>
+                  <span class="align-middle">Pricing</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="pages-faq.html">
+                  <i class="ri-question-line ri-22px me-2"></i>
+                  <span class="align-middle">FAQ</span>
+                </a>
+              </li>
+              <li>
+                <div class="d-grid px-4 pt-2 pb-1">
+                  <a class="btn btn-danger d-flex" href="auth-login-cover.html" target="_blank">
+                    <small class="align-middle">Logout</small>
+                    <i class="ri-logout-box-r-line ms-2 ri-16px"></i>
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!--/ User -->
+          
+
+
+        </ul>
+      </div>
+
+      
+      <!-- Search Small Screens -->
+      <div class="navbar-search-wrapper search-input-wrapper  d-none">
+        <input type="text" class="form-control search-input container-xxl border-0" placeholder="Search..." aria-label="Search...">
+        <i class="ri-close-fill search-toggler cursor-pointer"></i>
+      </div>
+      
+      
+  
+</nav>
+
+<!-- / Navbar -->
+
+      
+
+      <!-- Content wrapper -->
+      <div class="content-wrapper">
+
+        <!-- Content -->
+        
+          <div class="container-xxl flex-grow-1 container-p-y">
+            
+            
+              <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <!-- Product Information -->
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h5 class="card-title mb-0 text-primary">Product Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Product Title -->
+                            <div class="mb-3 col-md-6">
+                                <label for="productTitle">Product Title</label>
+                                <input type="text" class="form-control" id="productTitle" name="productTitle" placeholder="Product Title" required="">
+                            </div>
+                            <!-- Description -->
+                            <div class="mb-3 col-md-6">
+                                <label for="productDescription">Description</label>
+                                <textarea class="form-control" id="productDescription" name="productDescription" placeholder="Product Description"></textarea>
+                            </div>
+                        </div>
+            
+                        <!-- Product Images -->
+                        <div class="mb-3">
+                            <label for="productImage1" class="form-label">Product Images:</label>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="image-input-container">
+                                        <input type="file" class="form-control image-input" id="productImage1" name="productImage1" accept=".jpeg, .jpg, .png" required="" onchange="previewImage(this, 'imagePreview1');">
+                                        <label for="productImage1" class="image-placeholder">Click to upload</label>
+                                        <img id="imagePreview1" src="#" alt="Preview" class="img-thumbnail mt-2" style="display: none; height: 270px;">
+                                    </div>
+                                    <div class="image-actions" id="actions1" style="display: none;">
+                                      <a href="#" class="btn btn-warning btn-sm waves-effect waves-light" onclick="triggerInputClick('productImage1'); return false;">Replace</a>
+                                      <a href="#" class="btn btn-danger btn-sm waves-effect waves-light" onclick="deleteImage('productImage1', 'imagePreview1'); return false;">Remove</a>
+                                      <a href="#" class="btn btn-primary btn-sm waves-effect waves-light" onclick="cropImage('imagePreview1', 'productImage1'); return false;">Crop</a>
+                                  </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="image-input-container">
+                                        <input type="file" class="form-control image-input" id="productImage2" name="productImage2" accept=".jpeg, .jpg, .png" required="" onchange="previewImage(this, 'imagePreview2');">
+                                        <label for="productImage2" class="image-placeholder">Click to upload</label>
+                                        <img id="imagePreview2" src="#" alt="Preview" class="img-thumbnail mt-2" style="display: none; height: 270px;">
+                                    </div>
+                                    <div class="image-actions" id="actions2" style="display: none;">
+                                      <a href="#" class="btn btn-warning btn-sm waves-effect waves-light" onclick="triggerInputClick('productImage2'); return false;">Replace</a>
+                                      <a href="#" class="btn btn-danger btn-sm waves-effect waves-light" onclick="deleteImage('productImage2', 'imagePreview2'); return false;">Remove</a>
+                                      <a href="#" class="btn btn-primary btn-sm waves-effect waves-light" onclick="cropImage('imagePreview2', 'productImage2'); return false;">Crop</a>
+                                  </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="image-input-container">
+                                        <input type="file" class="form-control image-input" id="productImage3" name="productImage3" accept=".jpeg, .jpg, .png" onchange="previewImage(this, 'imagePreview3');">
+                                        <label for="productImage3" class="image-placeholder">Click to upload</label>
+                                        <img id="imagePreview3" src="#" alt="Preview" class="img-thumbnail mt-2" style="display: none; height: 270px;">
+                                    </div>
+                                    <div class="image-actions" id="actions3" style="display: none;">
+                                      <a href="#" class="btn btn-warning btn-sm waves-effect waves-light" onclick="triggerInputClick('productImage3'); return false;">Replace</a>
+                                      <a href="#" class="btn btn-danger btn-sm waves-effect waves-light" onclick="deleteImage('productImage3', 'imagePreview3'); return false;">Remove</a>
+                                      <a href="#" class="btn btn-primary btn-sm waves-effect waves-light" onclick="cropImage('imagePreview3', 'productImage3'); return false;">Crop</a>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <!-- Price and Stock -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="productPrice" class="form-label">Price:</label>
+                                    <input type="number" class="form-control" id="productPrice" name="productPrice" required="">
+                                </div>
+                            </div>
+                            {% comment %} <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="discountPrice" class="form-label">Discount Price:</label>
+                                    <input type="number" class="form-control" id="discountPrice" name="productDiscountedPrice">
+                                    <div class="invalid-feedback" id="discountPrice-error" style="display: none;">Discount price must be a valid number.</div>
+                                </div>
+                            </div> {% endcomment %}
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="mb-3">
+                                  <label for="stock" class="form-label">Stock:</label>
+                                  <input type="number" class="form-control" id="stock" name="stock" required="">
+                              </div>
+                          </div>
+                          <div class="col-md-6">
+
+                                <div class="col-md-6">
+                                  <div class="mb-3">
+                                    <label for="category" class="form-label">Category:</label>
+                                    <select class="form-select" id="category" name="category" required>
+                                      <option  value="" disabled="" selected="">Select Category</option>
+                                      {% for category in categories %}
+                                        <option value="{{ category.id }}" style="color: black;">{{ category.title }}</option>
+                                      {% endfor %}
+                                    </select>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
+                            
+                        
+            
+                        <!-- Category and Status -->
+
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                              <label for="brand" class="form-label">Brand:</label>
+                              <input type="text" class="form-control" id="brand" name="brand" placeholder="Enter Brand" required>
+                          </div>
+                      </div>
+
+
+                        <div class="row">
+                            
+                          <div class="col-md-6">
+                            <div class="mb-3">
+                              <label for="product-status" class="form-label">Status</label>
+                              <select class="form-select" id="product-status" name="status" required>
+                                  <option value="True">Active</option>
+                                  <option value="False">Inactive</option>
+                              </select>
+                          </div>
+                          </div>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary waves-effect waves-light">Add Product</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+          
+          </div>
+          <!-- / Content -->
+
+          
+          
+
+<!-- Footer -->
+<footer class="content-footer footer bg-footer-theme">
+  <div class="container-xxl">
+    <div class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
+      <div class="text-body mb-2 mb-md-0">
+        © <script>
+        document.write(new Date().getFullYear())
+
+        </script>, made with <span class="text-danger"><i class="tf-icons ri-heart-fill"></i></span> by <a href="https://themeselection.com/" target="_blank" class="footer-link">ThemeSelection</a>
+      </div>
+      <div class="d-none d-lg-inline-block">
+        
+        <a href="https://themeselection.com/license/" class="footer-link me-4" target="_blank">License</a>
+        <a href="https://themeselection.com/" target="_blank" class="footer-link me-4">More Themes</a>
+        
+        <a href="https://demos.themeselection.com/materio-bootstrap-html-admin-template/documentation/" target="_blank" class="footer-link me-4">Documentation</a>
+        
+        
+        <a href="https://themeselection.com/support/" target="_blank" class="footer-link d-none d-sm-inline-block">Support</a>
+        
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- / Footer -->
+
+          
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    
+    
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+    
+    
+    <!-- Drag Target Area To SlideIn Menu On Small Screens -->
+    <div class="drag-target"></div>
+    
+  </div>
+  <!-- / Layout wrapper -->[
+   
+  
+  
+  <div class="container">
+    {% block content %}
+    {% endblock content %}
+</div>
+
+
+  
+
+  
+
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/popper/popper.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/js/bootstrap.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/node-waves/node-waves.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/hammer/hammer.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/i18n/i18n.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/typeahead-js/typeahead.js' %}"></script>
+  <script src="{% static 'aassets/dashboard-assets/vendor/js/menu.js' %}"></script>
+  
+  <!-- endbuild -->
+
+
+  <!-- Vendors JS -->
+
+
+  <script>let cropper;
+
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        const file = input.files[0];
+        const reader = new FileReader();
+    
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            
+            // Destroy previous cropper instance if exists
+            if (cropper) {
+                cropper.destroy();
+            }
+    
+            // Initialize cropper on the preview image
+            cropper = new Cropper(preview, {
+                aspectRatio: 1, // Adjust the aspect ratio as needed
+                viewMode: 2,
+                autoCropArea: 1,
+            });
+            
+            // Show the action buttons (Replace, Remove, Crop)
+            document.getElementById(`actions${previewId.slice(-1)}`).style.display = 'block';
+        };
+    
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    function cropImage(previewId, inputId) {
+        if (!cropper) {
+            alert("Cropping is not implemented or image not selected.");
+            return;
+        }
+    
+        // Get the cropped image data
+        const canvas = cropper.getCroppedCanvas();
+    
+        // Convert the canvas to a blob (image file)
+        canvas.toBlob(function(blob) {
+            const url = URL.createObjectURL(blob);
+            
+            // Replace the original file input with the cropped image
+            const preview = document.getElementById(previewId);
+            preview.src = url;
+    
+            // Update the input file with the cropped image
+            const input = document.getElementById(inputId);
+            const dataTransfer = new DataTransfer();
+            const file = new File([blob], "cropped_image.png", { type: "image/png" });
+            dataTransfer.items.add(file);
+            input.files = dataTransfer.files;
+        });
+    }
+    
+    function triggerInputClick(inputId) {
+        document.getElementById(inputId).click();
+    }
+    
+    function deleteImage(inputId, previewId) {
+        document.getElementById(inputId).value = '';
+        const preview = document.getElementById(previewId);
+        preview.src = '#';
+        preview.style.display = 'none';
+    
+        // Hide action buttons
+        document.getElementById(`actions${previewId.slice(-1)}`).style.display = 'none';
+    }
+    </script>
+
+
+
+
+
+   <script>function cropImage(previewId, inputId) {
+    const image = document.getElementById(previewId);
+    const cropper = new Cropper(image, {
+        aspectRatio: 1,
+        viewMode: 1,
+        crop(event) {
+            // Handle cropping events if needed
+        }
+    });
+
+    // Example code to handle cropping
+    document.getElementById('cropButton').addEventListener('click', function() {
+        const canvas = cropper.getCroppedCanvas();
+        const croppedImage = canvas.toDataURL('image/png'); // Get the cropped image as base64
+        document.getElementById(inputId).value = croppedImage; // Set the cropped image to your input (if needed)
+        cropper.destroy(); // Destroy the cropper after use
+    });
+}</script>
+
+  <script src="{% static 'aassets/dashboard-assets/vendor/libs/quill/katex.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/quill/quill.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/select2/select2.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/dropzone/dropzone.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/jquery-repeater/jquery-repeater.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/flatpickr/flatpickr.js' %}"></script>
+<script src="{% static 'aassets/dashboard-assets/vendor/libs/tagify/tagify.js' %}"></script>
+
+  <!-- Main JS -->
+  <script src="{% static 'aassets/dashboard-assets/js/main.js' %}"></script>
+  
+
+  <!-- Page JS -->
+  <script src="{% static 'aassets/dashboard-assets/js/app-ecommerce-product-add.js' %}"></script>
+  
+
+
+</body>
+
+
+<!-- Mirrored from demos.themeselection.com/materio-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-product-add.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Jun 2024 05:50:31 GMT -->
+</html>
+
+<!-- beautify ignore:end -->
+

@@ -1,0 +1,594 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .wallet-section {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .balance-card {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .balance-card .card-title {
+            color: white;
+        }
+        #walletBalance {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+            color: #333;
+        }
+        .transaction-type {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .credit {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .debit {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <header class="header">
+            <div class="header-top">
+                <div class="container">
+                    <div class="header-left">
+                        <div class="header-dropdown">
+                            <a href="#">Usd</a>
+                            <div class="header-menu">
+                                <ul>
+                                    <li><a href="#">Eur</a></li>
+                                    <li><a href="#">Usd</a></li>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+
+                        <div class="header-dropdown">
+                            <a href="#">Eng</a>
+                            <div class="header-menu">
+                                <ul>
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">Spanish</a></li>
+                                </ul>
+                            </div><!-- End .header-menu -->
+                        </div><!-- End .header-dropdown -->
+                    </div><!-- End .header-left -->
+
+                    <div class="header-right">
+                        <ul class="top-menu">
+                            <li>
+                                <a href="#">Links</a>
+                                <ul>
+                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +0123 456 789</a></li>
+                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
+                                    <li><a href="about.html">About Us</a></li>
+                                    <li><a href="contact.html">Contact Us</a></li>
+                                    <li>
+                                        {% if request.user.is_authenticated %}
+                                            <a href="{% url "accounts" %}"><i class="icon-user"></i>Welcome {{request.user}}</a>
+                                        {% else %}
+                                            <a href="{% url 'login' %}"><i class="icon-user"></i>Login</a>
+                                        {% endif %}
+
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul><!-- End .top-menu -->
+                    </div><!-- End .header-right -->
+                </div><!-- End .container -->
+            </div><!-- End .header-top -->
+
+            <div class="header-middle sticky-header">
+                <div class="container">
+                    <div class="header-left">
+                        <button class="mobile-menu-toggler">
+                            <span class="sr-only">Toggle mobile menu</span>
+                            <i class="icon-bars"></i>
+                        </button>
+                        <a href="/home" class="logo">
+                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                        </a>
+                        <nav class="main-nav">
+                            <ul class="menu sf-arrows">
+                                <li class="megamenu-container active">
+                                    <a href="{% url 'home' %}" class="">Home</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'all_product' %}">Product</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'wishlist' %}">Wishlist</a>
+                                <li>
+                                <li>
+                                    <a href="#" class="sf-with-ul">Pages</a>
+                                    <ul>
+                                        <li><a href="about.html">About</a></li>
+                                        <li><a href="/contact-us">Contact</a></li>
+                                        <li><a href="/login">Login</a></li>
+                                        <li><a href="coming-soon.html">Coming Soon</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+    
+                    <div class="header-right">
+                        <div class="header-search">
+                            <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                            <form action="#" method="get">
+                                <div class="header-search-wrapper">
+                                    <label for="search-input" class="sr-only">Search</label>
+                                    <input type="search" class="form-control" name="q" id="search-input"
+                                        placeholder="Search in..." required onkeyup="searchCart()" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="cart-dropdown">
+                            <a href="/wallet" class="dropdown-toggle" style="font-size: 23px;">
+                                <i class="fa-solid fa-wallet"></i>
+                            </a>
+                        </div>
+                        <div class="dropdown cart-dropdown">
+                            <a href="/cart" class="dropdown-toggle">
+                                <i class="icon-shopping-cart"></i>
+                                <span class="cart-count">0</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header><!-- End .header -->
+
+        <main class="main">
+            <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+                <div class="container">
+                    <h1 class="page-title">My Account<span>Shop</span></h1>
+                </div><!-- End .container -->
+            </div><!-- End .page-header -->
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3">
+                <div class="container">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+        
+            <div class="page-content">
+                <div class="dashboard">
+                    <div class="container">
+                        <div class="row">
+                            <aside class="col-md-4 col-lg-3">
+                                <ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-orders-link" href="{% url 'order_details' %}" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
+                                    </li>
+                                    <!-- Wallet Tab -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-wallet-link" data-toggle="tab" href="#tab-wallet"  role="tab" aria-controls="tab-wallet" aria-selected="false">Wallet</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-address-link" href="{% url 'accounts' %}" role="tab" aria-controls="tab-address" aria-selected="false">Addresses</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="tab-account-link" href="{% url 'accounts' %}" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <form action="{% url 'logout' %}" method="POST" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="nav-link btn btn-link p-0">Sign Out</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </aside><!-- End .col-lg-3 -->
+        
+                            <div class="col-md-8 col-lg-9">
+                                <div class="tab-content">
+                                    <div class="tab-pane fade" id="tab-wallet" role="tabpanel" aria-labelledby="tab-wallet-link">
+                                        <div class="wallet-section">
+                                            <!-- Wallet Balance Section -->
+                                            <div class="card balance-card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Wallet</h4>
+                                                    <div>
+                                                        <p>Current Balance</p>
+                                                        <span id="walletBalance">RS: {{ wallet_balance }}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    
+                                            <!-- Transaction History Section -->
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h4 class="card-title">Transaction History</h4>
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Date</th>
+                                                                    <th>Description</th>
+                                                                    <th>Type</th>
+                                                                    <th>Amount</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for transaction in transactions %}
+                                                                    <tr>
+                                                                        <td>{{ transaction.timestamp }}</td>  
+                                                                        <td>{{ transaction.description }}</td>
+                                                                        <td>
+                                                                            <span class="transaction-type {{ transaction.transaction_type }}">
+                                                                                {{ transaction.transaction_type }}
+                                                                            </span>
+                                                                        </td>
+                                                                        <td>RS: {{ transaction.amount }}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                </div><!-- End .col-lg-9 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .container -->
+                    </div><!-- End .dashboard -->
+                </div><!-- End .page-content -->
+            </div>
+        </main><!-- End .main -->
+        
+
+        <footer class="footer">
+        	<div class="footer-middle">
+	            <div class="container">
+	            	<div class="row">
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget widget-about">
+	            				<img src="{% static 'assets/images/logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+	            				<div class="social-icons">
+	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+	            				</div><!-- End .soial-icons -->
+	            			</div><!-- End .widget about-widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="about.html">About Molla</a></li>
+	            					<li><a href="#">How to shop on Molla</a></li>
+	            					<li><a href="#">FAQ</a></li>
+	            					<li><a href="contact.html">Contact us</a></li>
+	            					<li><a href="login.html">Log in</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Payment Methods</a></li>
+	            					<li><a href="#">Money-back guarantee!</a></li>
+	            					<li><a href="#">Returns</a></li>
+	            					<li><a href="#">Shipping</a></li>
+	            					<li><a href="#">Terms and conditions</a></li>
+	            					<li><a href="#">Privacy Policy</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="#">Track My Order</a></li>
+	            					<li><a href="#">Help</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+	            	</div><!-- End .row -->
+	            </div><!-- End .container -->
+	        </div><!-- End .footer-middle -->
+
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+	        		<figure class="footer-payments">
+	        			<img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
+	        		</figure><!-- End .footer-payments -->
+	        	</div><!-- End .container -->
+	        </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    
+
+    <!-- Sign in / Register Modal -->
+     <script>function returnOrder(orderId) {
+        // Logic to handle return
+        alert("Returning order: " + orderId);
+    }
+    
+    function cancelOrder(orderId) {
+        // Logic to handle cancellation
+        alert("Cancelling order: " + orderId);
+    }</script>
+
+
+    <script>function returnOrder(orderId) {
+        // Logic to return the order, e.g., send an AJAX request to your server
+        if (confirm("Are you sure you want to return this order?")) {
+            // Example AJAX request (adjust the URL and method as needed)
+            $.ajax({
+                url: '/return-order/', // Replace with your return order endpoint
+                method: 'POST',
+                data: {
+                    orderId: orderId,
+                    csrfmiddlewaretoken: '{{ csrf_token }}' // Include CSRF token if using Django
+                },
+                success: function(response) {
+                    // Handle success (e.g., reload the table, show a message, etc.)
+                    alert("Order returned successfully.");
+                    location.reload(); // Reload page or update table dynamically
+                },
+                error: function(error) {
+                    // Handle error
+                    alert("Failed to return order. Please try again.");
+                }
+            });
+        }
+    }
+    </script>
+    
+
+{% comment %} TO EDIT THE ADDRESS  {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var editButtons = document.querySelectorAll('[data-bs-toggle="modal"]');
+    
+        editButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var modal = new bootstrap.Modal(document.getElementById('editAddressModal'));
+                var addressId = this.getAttribute('data-id');
+                var firstName = this.getAttribute('data-first-name');
+                var lastName = this.getAttribute('data-last-name');
+                var streetAddress = this.getAttribute('data-street-address');
+                var city = this.getAttribute('data-city');
+                var state = this.getAttribute('data-state');
+                var postcode = this.getAttribute('data-postcode');
+                var phone = this.getAttribute('data-phone');
+                var email = this.getAttribute('data-email');
+    
+                document.getElementById('address-id').value = addressId;
+                document.getElementById('first-name').value = firstName;
+                document.getElementById('last-name').value = lastName;
+                document.getElementById('street-address').value = streetAddress;
+                document.getElementById('city').value = city;
+                document.getElementById('state').value = state;
+                document.getElementById('postcode').value = postcode;
+                document.getElementById('phone').value = phone;
+                document.getElementById('email').value = email;
+    
+                modal.show();
+            });
+        });
+    });
+    </script>
+
+    <script>
+    function openReturnModal(orderId, itemId) {
+        // Code to open the return modal and pass the orderId and itemId
+        console.log('Return initiated for Order ID:', orderId, 'Item ID:', itemId);
+        // You can display a modal for return processing here.
+    }
+    
+    function cancelOrder(orderId, itemId) {
+        // Code to cancel the order, this might involve an AJAX request to your server
+        console.log('Cancel initiated for Order ID:', orderId, 'Item ID:', itemId);
+        // You can trigger an AJAX request here to cancel the order on the server.
+    }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript">
+        function cancelOrder(orderId, itemId) {
+            // Show SweetAlert confirmation
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "Do you want to cancel this order?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, cancel it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Make AJAX request to cancel the order
+                    $.ajax({
+                        url: '{% url "cancel_order" %}',  // This is the URL for the cancel order view
+                        type: 'POST',
+                        data: {
+                            'order_id': orderId,
+                            'item_id': itemId,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Canceled!',
+                                    text: 'Your order has been canceled.',
+                                    icon: 'success'
+                                });
+    
+                                // Update button text and style
+                                $(`#cancelBtn_${orderId}_${itemId}`).text('Canceled');
+                                $(`#cancelBtn_${orderId}_${itemId}`).prop('disabled', true);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: 'There was an issue canceling your order.',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+    <script>// Update button text and disable it after cancellation
+        $(`#cancelBtn_${orderId}_${itemId}`).text('Canceled');
+        $(`#cancelBtn_${orderId}_${itemId}`).prop('disabled', true);
+        </script>
+
+
+
+
+    <!--return  the order JS-->
+    <script>
+        function openReturnModal(orderId, itemId = null) {
+            // Display confirmation dialog before submitting the return request
+            if (confirm('Are you sure you want to return this item/order?')) {
+                // Send AJAX POST request to return the order or specific item
+                $.ajax({
+                    url: '{% url "return_order" %}',  // Ensure your URL matches the view name
+                    type: 'POST',
+                    data: {
+                        'order_id': orderId,
+                        'item_id': itemId,  // If returning a specific item
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function (response) {
+                        alert(response.message);
+                        if (response.success) {
+                            // Reload the page or update the UI dynamically after success
+                            location.reload();
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('Error: ' + error);
+                    }
+                });
+            }
+        }
+    </script>
+    
+
+    
+    
+    
+
+
+    
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+</html>

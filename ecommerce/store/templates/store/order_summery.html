@@ -1,0 +1,394 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Molla - Bootstrap eCommerce Template</title>
+    <meta name="keywords" content="HTML5 Template">
+    <meta name="description" content="Molla - Bootstrap eCommerce Template">
+    <meta name="author" content="p-themes">
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/site.html">
+    <link rel="mask-icon" href="assets/images/icons/safari-pinned-tab.svg" color="#666666">
+    <link rel="shortcut icon" href="assets/images/icons/favicon.ico">
+    <meta name="apple-mobile-web-app-title" content="Molla">
+    <meta name="application-name" content="Molla">
+    <meta name="msapplication-TileColor" content="#cc9966">
+    <meta name="msapplication-config" content="assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Plugins CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/owl-carousel/owl.carousel.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/magnific-popup/magnific-popup.css' %}">
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/plugins/nouislider/nouislider.css' %}">
+
+    <style>
+        .order-summary-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .order-summary h1,
+        .order-summary h2,
+        .order-summary h3 {
+            color: #333;
+        }
+
+        .order-summary table {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .order-summary th,
+        .order-summary td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        .order-summary th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .order-summary tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .variant-image {
+            width: 120px;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .order-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .address-details {
+            max-width: 50%;
+            text-align: right;
+        }
+
+        .order-summary-footer {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .order-summary-footer .row {
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            background-color: #fff;
+            color: #c96;
+            border: 1px solid #c96;
+        }
+
+        .btn:hover {
+            background-color: #c96;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <div class="header-top">
+            <div class="container" style="padding: 10px;">
+                <div class="header-left col-lg-7"></div>
+                <div class="header-right">
+                    <ul class="top-menu">
+                        <li>
+                            <a href="#">Links</a>
+                            <ul>
+                                <li>
+                                    <a href="/wishlist"><i class="icon-heart-o"></i>Wishlist
+                                        <span>(0)</span>
+                                    </a>
+                                </li>
+                                <li><a href="about.html">About Us</a></li>
+                                <li><a href="/contact-us">Contact Us</a></li>
+                                <li>
+                                    {% if request.user.is_authenticated %}
+                                        <a href="{% url "accounts" %}"><i class="icon-user"></i>Welcome {{request.user}}</a>
+                                    {% else %}
+                                        <a href="{% url 'login' %}"><i class="icon-user"></i>Login</a>
+                                    {% endif %}
+
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-middle sticky-header">
+            <div class="container">
+                <div class="header-left">
+                    <button class="mobile-menu-toggler">
+                        <span class="sr-only">Toggle mobile menu</span>
+                        <i class="icon-bars"></i>
+                    </button>
+                    <a href="/home" class="logo">
+                        <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                    </a>
+                    <nav class="main-nav">
+                        <ul class="menu sf-arrows">
+                            <li class="megamenu-container active">
+                                <a href="/home" class="">Home</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'all_product' %}">Product</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'wishlist' %}">Wishlist</a>
+                            <li>
+                            <li>
+                                <a href="#" class="sf-with-ul">Pages</a>
+                                <ul>
+                                    <li><a href="about.html">About</a></li>
+                                    <li><a href="/contact-us">Contact</a></li>
+                                    <li><a href="/login">Login</a></li>
+                                    <li><a href="coming-soon.html">Coming Soon</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <div class="header-right">
+                    <div class="header-search">
+                        <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                        <form action="#" method="get">
+                            <div class="header-search-wrapper">
+                                <label for="search-input" class="sr-only">Search</label>
+                                <input type="search" class="form-control" name="q" id="search-input"
+                                    placeholder="Search in..." required onkeyup="searchCart()" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="cart-dropdown">
+                        <a href="/wallet" class="dropdown-toggle" style="font-size: 23px;">
+                            <i class="fa-solid fa-wallet"></i>
+                        </a>
+                    </div>
+                    <div class="dropdown cart-dropdown">
+                        <a href="/cart" class="dropdown-toggle">
+                            <i class="icon-shopping-cart"></i>
+                            <span class="cart-count">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="">
+        <div class="page-header text-center" style="background-image: url('/assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Order<span>Summary</span></h1>
+            </div>
+        </div>
+    
+        <div class="order-summary order-summary-container">
+            <div class="order-details">
+                <div class="order-info">
+                    <h4 class="mb-3">Order Details</h4>
+                    <p><strong>Order ID:</strong> {{ order.id }}</p>
+                    <p><strong>Total Amount:</strong> ₹ {{ final_total_amount }}</p>  <!-- Display the final amount -->
+                    <p><strong>Delivery Date:</strong> {{ order.delivery_date }}</p>
+                </div>
+        
+                <div class="address-details">
+                    <h4>Address Details</h4>
+                    <p><strong>Ship to:</strong> {{ address.first_name }} {{ address.last_name }}</p>
+                    <p><strong>Delivery Address</strong><br>
+                        {{ address.street_address }}<br>
+                        {{ address.city }}<br>
+                        {{ address.state }}<br>
+                        {{ address.postcode }}<br>
+                        {{ address.phone }}
+                    </p>
+                </div>                
+            </div>
+        
+            <h3 class="mt-4 mb-3">Products</h3>
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                    <tr>
+                        <td>
+                            <a href="/product/{{ item.product.id }}">
+                                <img style="width: 7em;" src="{{ item.product.image1.url }}" alt="{{ item.product.title }}">
+                            </a>
+                        </td>
+                        <td>{{ item.product.title }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>₹ {{ item.price }}</td>
+                        <td>₹ {{ item.total }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        
+            <div class="order-summary-footer">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                        <h4 class="mt-4">Subtotal: <span>₹ {{ total_cart_price }}</span></h4>
+                        <h4 class="mt-4">Discount: <span>₹ {{ discount_amount }}</span></h4>  <!-- Display discount amount -->
+                        <h4 class="mt-4">Grand Total: <span>₹ {{ final_total_amount }}</span></h4> <!-- Display final total -->
+                    </div>
+                </div>
+            </div>
+        
+            <div class="text-center mt-4">
+                <a href="{% url 'all_product' %}" class="btn btn-md mr-2">Continue Shopping</a>
+            </div>
+        </div>
+        
+    </div>
+    
+
+    <!-- Footer starts here -->
+    <footer class="footer">
+        <div class="footer-middle">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget widget-about">
+                            <img src="{% static 'assets/images/venet/icon.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+                            <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat.</p>
+                            <div class="social-icons">
+                                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+                                <a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Useful Links</h4>
+                            <ul class="widget-list">
+                                <li><a href="about.html">About Molla</a></li>
+                                <li><a href="#">How to shop on Molla</a></li>
+                                <li><a href="#">FAQ</a></li>
+                                <li><a href="contact.html">Contact us</a></li>
+                                <li><a href="login.html">Log in</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">Customer Service</h4>
+                            <ul class="widget-list">
+                                <li><a href="#">Payment Methods</a></li>
+                                <li><a href="#">Money-back guarantee!</a></li>
+                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Terms and conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-lg-3">
+                        <div class="widget">
+                            <h4 class="widget-title">My Account</h4>
+                            <ul class="widget-list">
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="cart.html">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p>
+                <figure class="footer-payments">
+                    <img src="{% static 'assets/images/payments.png' %}" alt="Payment methods" width="272" height="20">
+                </figure>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer ends here -->
+
+    {% comment %} <script>
+        document.getElementById('applyCoupon').addEventListener('click', function() {
+            const couponCode = document.getElementById('checkout-discount-input').value;
+    
+            if (couponCode) {
+                fetch("{% url 'apply_coupon' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({
+                        'coupon_code': couponCode
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        document.querySelector('.summary-total td:last-child').textContent = `$${data.new_total}`;
+                        alert('Coupon applied successfully!');
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while applying the coupon.');
+                });
+            } else {
+                alert('Please enter a coupon code.');
+            }
+        });
+    </script> {% endcomment %}
+    
+
+
+    <!-- Plugins JS File -->
+    <script src="{% static 'assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.hoverIntent.min.js' %}"></script>
+    <script src="{% static 'assets/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/js/superfish.min.js' %}"></script>
+    <script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+    <!-- Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sales Report PDF</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h2>Sales Report</h2>
+    <p>Total Orders: {{ total_orders }}</p>
+    <p>Total Sales Amount: RS: {{ total_sales_amount|floatformat:2 }}</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order Id</th>
+                <th>Customer Name</th>
+                <th>Order Date</th>
+                <th>Total Amount</th>
+                <th>Payment Method</th>
+                <th>Payment Status</th>
+                <th>Order Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in order_details %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.user.username }}</td>
+                <td>{{ order.created_at|date:"d/m/Y" }}</td>
+                <td>RS: {{ order.total_amount|floatformat:2 }}</td>
+                <td>{{ order.get_payment_method_display }}</td>
+                <td>{{ order.payment_status }}</td>
+                <td>{{ order.orderstatus.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
