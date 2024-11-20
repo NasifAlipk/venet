@@ -49,7 +49,7 @@ from django.contrib.auth import update_session_auth_hash
 
 
 from django.shortcuts import render
-
+@login_required(login_url='/login')
 def CartView(request):
     # Get or create the user's cart
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -67,7 +67,7 @@ def CartView(request):
 
     return render(request, 'store/cart.html', context)
 
-@login_required
+@login_required(login_url='/login')
 def add_to_cart(request, product_id):
     product = get_object_or_404(Add_product, id=product_id)
 
@@ -103,7 +103,7 @@ def add_to_cart(request, product_id):
 
 
 
-@login_required
+@login_required(login_url='/login')
 @require_POST
 def update_cart_item(request, item_id):
     try:
@@ -235,7 +235,7 @@ def Home(request):
 
 
 
-
+@login_required(login_url='/login')
 def Product_details(request, product_id):
     # Fetch the product or return a 404 error if not found
     product = get_object_or_404(Add_product, id=product_id)
@@ -330,7 +330,7 @@ def All_product(request):
     })
 
 
-@login_required
+@login_required(login_url='/login')
 def Wishlist(request):
     # Get the user's wishlist items
     wishlist_items = WishlistItem.objects.select_related('product').filter(user=request.user)
@@ -365,7 +365,7 @@ def Wishlist(request):
 
 
 
-@login_required
+@login_required(login_url='/login')
 def add_to_wishlist(request, product_id):
     product = Add_product.objects.get(id=product_id)  # Get product from Add_product model
 
@@ -378,7 +378,7 @@ def add_to_wishlist(request, product_id):
 
 
 
-@login_required
+@login_required(login_url='/login')
 def remove_from_wishlist(request, product_id):
     product = Add_product.objects.get(id=product_id)
     WishlistItem.objects.filter(user=request.user, product=product).delete()
@@ -689,7 +689,7 @@ def wallet(request):
 
 # Initialize Razorpay client with your provided API keys
 # razorpay_client = razorpay.Client(auth=('rzp_test_FwwIyWbzNNAvKY', 'yLIcsMzkAD8CcMlORthD0Mtj'))
-
+@login_required(login_url='/login')
 def Checkoutt(request):
     # Get the user's cart and items
     cart, created = Cart.objects.get_or_create(user=request.user)

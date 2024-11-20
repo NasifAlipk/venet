@@ -12,17 +12,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">           <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
 
-    <title>Molla - Bootstrap eCommerce Template</title>
+    <title>Venet.Shop</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'assets/images/icons/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'assets/images/icons/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/icons/favicon-16x16.png' %}">
-    <link rel="manifest" href="static/assets/images/icons/site.html">
-    <link rel="mask-icon" href="static/assets/images/icons/safari-pinned-tab.svg" color="#666666">
-    <link rel="shortcut icon" href="{% static 'assets/images/icons/favicon.ico' %}">
+    <link rel="shortcut icon" href="{% static 'assets/images/venet/newicon.jpg' %}">
     <meta name="apple-mobile-web-app-title" content="Molla">
     <meta name="application-name" content="Molla">
     <meta name="msapplication-TileColor" content="#cc9966">
@@ -67,11 +62,9 @@
                             <li>
                                 <a href="#">Links</a>
                                 <ul>
-                                    <li><a href="tel:#"><i class="icon-phone"></i>Call: +91 9876543210</a></li>
-                                    <li><a href="wishlist.html"><i class="icon-heart-o"></i>Wishlist <span>(3)</span></a></li>
-                                    <li><a href="about.html">About Us</a></li>
-                                    <li><a href="contact.html">Contact Us</a></li>
-                                    <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                                    
+                                    <li><a href="{% url 'login' %}"><i class="icon-heart-o"></i>Wishlist <span></span></a></li>
+                                    <li><a href="{% url 'login' %}" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
                                 </ul>
                             </li>
                         </ul><!-- End .top-menu -->
@@ -92,26 +85,20 @@
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
                                 <li class="megamenu-container active">
-                                    <a href="/home" class="">Home</a>
+                                    <a href="{% url 'withouthome' %}" class="">Home</a>
                                 </li>
                                 <li>
-                                    <a href="/product-list">Product</a>
+                                    <a href="{% url 'login' %}">Product</a>
                                 </li>
                                 <li>
-                                    <a href="#">Men</a>
-                                    
-                                </li>
+                                    <a href="{% url 'login' %}">Wishlist</a>
                                 <li>
-                                    <a href="#">Women</a>
-                                    
-                                </li>
                                 <li>
                                     <a href="#" class="sf-with-ul">Pages</a>
                                     <ul>
-                                        <li><a href="about.html">About</a></li>
-                                        <li><a href="/contact-us">Contact</a></li>
-                                        <li><a href="/login">Login</a></li>
-                                        <li><a href="coming-soon.html">Coming Soon</a></li>
+                                        <li><a href="{% url 'login' %}">Login</a></li>
+                                        <li><a href="{% url 'register' %}">Register</a></li>
+                                        
                                     </ul>
                                 </li>
                             </ul>
@@ -135,9 +122,9 @@
                             </a>
                         </div>
                         <div class="dropdown cart-dropdown">
-                            <a href="/cart" class="dropdown-toggle">
+                            <a href="{% url 'login' %}" class="dropdown-toggle">
                                 <i class="icon-shopping-cart"></i>
-                                <span class="cart-count">0</span>
+                                
                             </a>
                         </div>
                     </div>
@@ -162,10 +149,10 @@
             			<div class="form-tab">
 	            			<ul class="nav nav-pills nav-fill" role="tablist">
 							    <li class="nav-item">
-							        <a class="nav-link" id="signin-tab-2" data-toggle="tab" href="{% url 'login' %}" role="tab" aria-controls="signin-2" aria-selected="false">Sign In</a>
+							        <a class="nav-link" id="signin-tab-2"  href="{% url 'login' %}" role="tab" aria-controls="signin-2" aria-selected="false">Sign In</a>
 							    </li>
 							    <li class="nav-item">
-							        <a class="nav-link active" id="register-tab-2" data-toggle="tab" href="#register-2" role="tab" aria-controls="register-2" aria-selected="true">Register</a>
+							        <a class="nav-link active" id="register-tab-2" href="{% url 'register' %}" href="#register-2" role="tab" aria-controls="register-2" aria-selected="true">Register</a>
 							    </li>
 							</ul>
 							<div class="tab-content">
@@ -238,12 +225,7 @@
                                                     Login With Google
                                                 </a>
                                             </div><!-- End .col-6 -->
-                                            <div class="col-sm-6">
-                                                <a href="#" class="btn btn-login btn-f">
-                                                    <i class="icon-facebook-f"></i>
-                                                    Login With Facebook
-                                                </a>
-                                            </div><!-- End .col-6 -->
+                                            
                                         </div><!-- End .row -->
                                     </div><!-- End .form-choice -->
                                 </div><!-- End .tab-pane -->
