@@ -39,6 +39,7 @@ from xhtml2pdf import pisa
 from django.template.loader import render_to_string
 from decimal import Decimal
 from django.contrib.auth import update_session_auth_hash
+from django.db import transaction  # To ensure atomicity during stock validation and order creation
 
 # RAZORPAY_KEY_ID = 'rzp_test_FwwIyWbzNNAvKY'
 # RAZORPAY_KEY_SECRET = 'yLIcsMzkAD8CcMlORthD0Mtj'
@@ -160,7 +161,7 @@ register = template.Library()
 
 @register.filter
 def sum_total_price(cart_items):
-    print("Filter called with:", cart_items)
+    
     return sum(item['total_price'] for item in cart_items if 'total_price' in item)
 
 
@@ -395,7 +396,7 @@ def send_otp_email(email,otp):
     message =f'Your OTP is {otp}. It will expire in 5 minutes.'
     from_email =settings.EMAIL_HOST_USER
     recipient_list=[email]
-    print(recipient_list)
+   
     send_mail(subject,message, from_email, recipient_list)
     
     
@@ -446,7 +447,7 @@ def Register(request):
         user.save()
         
         otp = generate_otp()
-        print(f"otp:{otp}")
+        
         send_otp_email(email, otp)
         
         request.session['otp'] = otp
@@ -687,13 +688,12 @@ def wallet(request):
 
 
 
-# Initialize Razorpay client with your provided API keys
-# razorpay_client = razorpay.Client(auth=('rzp_test_FwwIyWbzNNAvKY', 'yLIcsMzkAD8CcMlORthD0Mtj'))
+
 @login_required(login_url='/login')
 def Checkoutt(request):
     # Get the user's cart and items
     cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_items = cart.cartitem_set.all()
+    cart_items = cart.cartitem_set.select_related('product').all()  # Use select_related to reduce queries
     total_cart_price = sum(Decimal(item.product.price) * Decimal(item.quantity) for item in cart_items)
 
     addresses = Address.objects.filter(user=request.user)
@@ -746,87 +746,98 @@ def Checkoutt(request):
         selected_payment_method = request.POST.get('payment')
 
         if selected_address_id and selected_payment_method:
-            # Wallet payment method
-            if selected_payment_method == 'wallet':
-                 # Get the user's wallet balance
-                wallet, created = Wallet.objects.get_or_create(user=request.user)
-
-                if wallet.balance >= final_total_amount:
-                    # Debit the wallet balance
-                    wallet.debit(final_total_amount)
-
-                    # Create the order first, so we can reference it in the transaction description
-                    order = Order.objects.create(
-                        user=request.user,
-                        address_id=selected_address_id,
-                        total_amount=final_total_amount,
-                        payment_method=selected_payment_method,
-                        payment_status='paid',
-                        delivery_date=timezone.now() + timezone.timedelta(days=7)
-                    )
-
-                    # Now we can set the transaction description, referencing the created order
-                    transaction_description = f"Payment for order {order.id}"
-                    Transaction.objects.create(
-                        wallet=wallet,
-                        transaction_type='debit',
-                        amount=final_total_amount,
-                        description=transaction_description
-                    )
-
-                    # Add items to the order
+            try:
+                with transaction.atomic():  # Ensure atomicity
+                    # Validate stock for each cart item
                     for item in cart_items:
-                        OrderItem.objects.create(
-                            order=order,
-                            product=item.product,
-                            quantity=item.quantity,
-                            price=item.product.price
-                        )
+                        if item.quantity > item.product.stock:
+                            messages.error(
+                                request,
+                                f"Insufficient stock for {item.product.title}. Only {item.product.stock} left."
+                            )
+                            return redirect('checkoutt')
 
-                    # Clear the cart
-                    cart.cartitem_set.all().delete()
+                    # Deduct stock for each product
+                    for item in cart_items:
+                        item.product.stock -= item.quantity
+                        item.product.save()
 
-                    request.session['order_id'] = order.id
-                    messages.success(request, "Order placed successfully!")
-                    return redirect('order_summery')
-                else:
-                    # Insufficient balance in wallet
-                    messages.error(request, "Insufficient balance in wallet to complete the order.")
+                    # Wallet payment method
+                    if selected_payment_method == 'wallet':
+                        wallet, created = Wallet.objects.get_or_create(user=request.user)
 
-            elif selected_payment_method == 'cash on delivery' and final_total_amount > 1000:
-                messages.error(request, "Cash on Delivery is not available for orders above ₹1000.")
+                        if wallet.balance >= final_total_amount:
+                            wallet.debit(final_total_amount)
+
+                            order = Order.objects.create(
+                                user=request.user,
+                                address_id=selected_address_id,
+                                total_amount=final_total_amount,
+                                payment_method=selected_payment_method,
+                                payment_status='paid',
+                                delivery_date=timezone.now() + timezone.timedelta(days=7)
+                            )
+
+                            transaction_description = f"Payment for order {order.id}"
+                            Transaction.objects.create(
+                                wallet=wallet,
+                                transaction_type='debit',
+                                amount=final_total_amount,
+                                description=transaction_description
+                            )
+
+                            for item in cart_items:
+                                OrderItem.objects.create(
+                                    order=order,
+                                    product=item.product,
+                                    quantity=item.quantity,
+                                    price=item.product.price
+                                )
+
+                            cart.cartitem_set.all().delete()
+                            request.session['order_id'] = order.id
+                            messages.success(request, "Order placed successfully!")
+                            return redirect('order_summery')
+                        else:
+                            messages.error(request, "Insufficient wallet balance.")
+
+                    elif selected_payment_method == 'cash on delivery' and final_total_amount > 1000:
+                        messages.error(request, "Cash on Delivery is not available for orders above ₹1000.")
+                        return redirect('checkoutt')
+
+                    else:
+                        # Online payment (e.g., Razorpay logic)
+                        razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+                        try:
+                            razorpay_order = razorpay_client.order.create({
+                                "amount": int(final_total_amount * 100),
+                                "currency": "INR",
+                                "payment_capture": "1"
+                            })
+                        except Exception as e:
+                            messages.error(request, "Failed to create Razorpay order. Please try again.")
+                            return redirect('checkoutt')
+
+                        request.session['razorpay_order_id'] = razorpay_order['id']
+                        request.session['selected_address_id'] = selected_address_id
+                        request.session['total_cart_price'] = str(final_total_amount)
+
+                        return render(request, 'store/checkoutt.html', {
+                            'razorpay_order_id': razorpay_order['id'],
+                            'razorpay_key_id': 'rzp_test_FwwIyWbzNNAvKY',
+                            'total_amount': final_total_amount,
+                            'user_email': request.user.email,
+                            'user_name': f"{request.user.first_name} {request.user.last_name}",
+                            'cart_items': cart_items,
+                            'total_cart_price': total_cart_price,
+                            'discount_amount': discount_amount,
+                            'addresses': addresses,
+                            'coupons': coupons,
+                        })
+            except Exception as e:
+                messages.error(request, "An error occurred while processing your order. Please try again.")
                 return redirect('checkoutt')
-
-            else:
-                # Handle online payment (e.g., Razorpay logic as previously)
-                razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
-
-                try:
-                    razorpay_order = razorpay_client.order.create({
-                        "amount": int(final_total_amount * 100),
-                        "currency": "INR",
-                        "payment_capture": "1"
-                    })
-                except Exception as e:
-                    messages.error(request, "Failed to create Razorpay order. Please try again.")
-                    return redirect('checkoutt')
-
-                request.session['razorpay_order_id'] = razorpay_order['id']
-                request.session['selected_address_id'] = selected_address_id
-                request.session['total_cart_price'] = str(final_total_amount)
-
-                return render(request, 'store/checkoutt.html', {
-                    'razorpay_order_id': razorpay_order['id'],
-                    'razorpay_key_id': 'rzp_test_FwwIyWbzNNAvKY',
-                    'total_amount': final_total_amount,
-                    'user_email': request.user.email,
-                    'user_name': f"{request.user.first_name} {request.user.last_name}",
-                    'cart_items': cart_items,
-                    'total_cart_price': total_cart_price,
-                    'discount_amount': discount_amount,
-                    'addresses': addresses,
-                    'coupons': coupons,
-                })
 
     context = {
         'cart_items': cart_items,
@@ -835,10 +846,11 @@ def Checkoutt(request):
         'final_total_amount': final_total_amount,
         'addresses': addresses,
         'coupons': coupons,
-        'applied_coupon': applied_coupon,  # Pass applied coupon to the template
+        'applied_coupon': applied_coupon,
     }
-
     return render(request, 'store/checkoutt.html', context)
+
+
 
 
 
@@ -951,6 +963,24 @@ def add_address(request):
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.cartitem_set.all()
     total_cart_price = sum(item.product.price * item.quantity for item in cart_items)
+    
+    
+    
+    
+    discount_amount = Decimal(0)  # Default discount amount
+    applied_coupon = None
+
+    # Check if a coupon is already applied (from session)
+    if 'applied_coupon' in request.session:
+        try:
+            applied_coupon = Coupon.objects.get(code=request.session['applied_coupon'], status='active')
+            discount_percentage = applied_coupon.discount_percentage
+            discount_amount = (Decimal(discount_percentage) / Decimal(100)) * total_cart_price
+        except Coupon.DoesNotExist:
+            del request.session['applied_coupon']
+
+    # Calculate the final total after applying the discount
+    final_total_amount = total_cart_price - discount_amount
 
     errors = {}
 
@@ -1034,6 +1064,8 @@ def add_address(request):
     context = {
         'cart_items': cart_items,
         'total_cart_price': total_cart_price,
+        'discount_amount': discount_amount,
+        'final_total_amount': final_total_amount,
         'errors': errors,  # Include errors in context
         'form_data': request.POST if request.method == 'POST' else {},
     }
@@ -1156,10 +1188,31 @@ def Order_details(request):
 
 
 
+
 def generate_invoice(request, order_id):
     # Fetch the order by ID
     order = get_object_or_404(Order, id=order_id, user=request.user)
-    
+
+    # Get the total cart price
+    total_cart_price = sum(Decimal(item.product.price) * Decimal(item.quantity) for item in order.items.all())
+
+    # Get the coupon code if applied
+    coupon_code = request.session.get('applied_coupon')
+    discount_amount = Decimal(0)
+
+    if coupon_code:
+        try:
+            coupon = Coupon.objects.get(code=coupon_code)
+            discount_amount = (Decimal(coupon.discount_percentage) / Decimal(100)) * total_cart_price
+        except Coupon.DoesNotExist:
+            discount_amount = Decimal(0)
+
+    # Calculate per-item discounts (proportional distribution of discount_amount)
+    for item in order.items.all():
+        item_total_price = Decimal(item.product.price) * Decimal(item.quantity)
+        item.discount_amount = (item_total_price / total_cart_price) * discount_amount if total_cart_price > 0 else Decimal(0)
+        item.final_price = item_total_price - item.discount_amount
+
     # Prepare the context data to pass into the template
     context = {
         'order': order,
@@ -1179,6 +1232,7 @@ def generate_invoice(request, order_id):
         return HttpResponse('Error generating PDF', status=500)
 
     return response
+
 
 
 

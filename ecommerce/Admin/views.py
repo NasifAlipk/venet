@@ -23,6 +23,8 @@ from io import BytesIO
 from django.core.paginator import Paginator
 from datetime import date
 from datetime import timedelta
+import os
+from datetime import datetime
 
 
 
@@ -153,15 +155,12 @@ def toggle_user_status(request, user_id):
 
 
 def Category_list(request):
-    print('catgory')
+
     categories = Category.objects.all()
     if request.method == 'POST':
-        print('is working')
         title = request.POST.get('title')
         description = request.POST.get('description')
         status = request.POST.get('isListed') == 'on'  # 'on' if checked, None if unchecked
-        print('hello')
-
         if title:
             Category.objects.create(title=title, description=description, status=status)
             messages.success(request, 'Category added successfully.')
@@ -189,10 +188,10 @@ def toggle_category_status(request):
 
 
 def edit_category(request):
-    print("helllllolo")
+
     
     if request.method == 'POST':
-        print("helllllolo")
+      
 
         category_id = request.POST.get('category_id')
         category = get_object_or_404(Category, id=category_id)
@@ -248,12 +247,31 @@ def edit_product(request, product_id):
         product.price = price
         product.stock = stock
         product.status = status
+
+        # Update images if new ones are provided
+        if 'image1' in request.FILES:
+            # Generate a unique file name
+            file_ext = os.path.splitext(request.FILES['image1'].name)[1]
+            new_name = f"{product_id}_image1_{datetime.now().strftime('%Y%m%d%H%M%S')}{file_ext}"
+            product.image1.save(new_name, request.FILES['image1'], save=False)
+
+        if 'image2' in request.FILES:
+            file_ext = os.path.splitext(request.FILES['image2'].name)[1]
+            new_name = f"{product_id}_image2_{datetime.now().strftime('%Y%m%d%H%M%S')}{file_ext}"
+            product.image2.save(new_name, request.FILES['image2'], save=False)
+
+        if 'image3' in request.FILES:
+            file_ext = os.path.splitext(request.FILES['image3'].name)[1]
+            new_name = f"{product_id}_image3_{datetime.now().strftime('%Y%m%d%H%M%S')}{file_ext}"
+            product.image3.save(new_name, request.FILES['image3'], save=False)
+
         product.save()
 
-        # Redirect to product list or another page
-        return redirect('product_list')  # Adjust URL name to your needs
+        # Redirect to product list
+        return redirect('product_list')
 
     return render(request, 'store/edit_product.html', {'product': product})
+
 
 
 
@@ -295,7 +313,7 @@ def Add_Product(request):
             messages.success(request, 'Product added successfully!')
             return redirect('product_list')
         except Exception as e:
-            print(f'Error: {str(e)}')
+           
             messages.error(request, f'Error adding product: {str(e)}')
 
     # If it's a GET request or if there was an error, render the form

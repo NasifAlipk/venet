@@ -44,6 +44,7 @@ class Add_product(models.Model):
     # status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, blank=True) 
     status = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)  # Automatically updates on save
 
     def __str__(self):
         return self.title
@@ -100,7 +101,7 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
-        
+    
 class Order(models.Model):
     # Choices for payment method and status
     PAYMENT_METHOD_CHOICES = (
@@ -130,10 +131,10 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
 
-    
-    
-    
 
+    
+    
+    
 class OrderItem(models.Model):
     STATUS_CHOICES = (
         ('purchased', 'Purchased'),
@@ -205,8 +206,7 @@ class WishlistItem(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.product.name}'
     
-    
-    
+
 class Coupon(models.Model):
     STATUS_CHOICES = [
         ('active', 'Active'),
@@ -216,15 +216,14 @@ class Coupon(models.Model):
     name = models.CharField(max_length=100)
     code = models.CharField(max_length=50, unique=True)
     minimum_amount = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_percentage = models.PositiveIntegerField() 
+    discount_percentage = models.PositiveIntegerField()
     expiry_date = models.DateField()
     status = models.CharField(max_length=8, choices=STATUS_CHOICES, default='inactive')
 
     def __str__(self):
         return f"{self.name} - {self.code}"
-    
-    
-    
+
+
 class Wallet(models.Model):
     """
     Wallet model to store user's current balance.

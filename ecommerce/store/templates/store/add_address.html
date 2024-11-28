@@ -307,7 +307,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         <a href="/home" class="logo">
-                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                            <img src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Molla Logo" width="105" height="25">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
@@ -521,12 +521,12 @@
                                                 {% for item in cart_items %}
                                                 <tr>
                                                     <td><a href="#">{{ item.product.title }}</a></td>
-                                                    <td>${{ item.total_price }}</td>
+                                                    <td>₹{{ item.total_price }}</td>
                                                 </tr>
                                                 {% endfor %}
                                                 <tr class="summary-subtotal">
                                                     <td>Subtotal:</td>
-                                                    <td>${{ total_cart_price }}</td>
+                                                    <td>₹{{ total_cart_price }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping:</td>
@@ -534,26 +534,66 @@
                                                 </tr>
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>${{ total_cart_price }}</td>
+                                                    <td>₹{{ final_total_amount }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
                         
                                         <div class="accordion-summary" id="accordion-payment">
+                                            <!-- Cash on Delivery Payment Option -->
                                             <div class="card">
                                                 <div class="card-header" id="heading-3">
                                                     <h2 class="card-title">
-                                                        <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-                                                            Cash on delivery
-                                                        </a>
+                                                        <input type="radio" name="payment" value="cash on delivery" id="Cash On Delivery" checked> <!-- Default selected -->
+                                                        <label for="cash">Cash on Delivery</label>
                                                     </h2>
                                                 </div>
-                                                <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
+                                                <div id="collapse-3" class="collapse show" aria-labelledby="heading-3" data-parent="#accordion-payment">
                                                     <div class="card-body">
                                                         Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
                                                     </div>
                                                 </div>
+                                                <div class="message-boxx">
+                                                    {% if messages %} 
+                                                        {% for message in messages %}
+                                                            <p>{{message}}</p>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
                                             </div>
+                                            
+                                            <!-- Online Payment Option -->
+                                            <div class="card">
+                                                <div class="card-header" id="heading-4">
+                                                    <h2 class="card-title">
+                                                        <input type="radio" name="payment" value="online" id="online_payment"> <!-- Not selected by default -->
+                                                        <label for="online">Online Payment</label>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                        Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. You can pay securely online using credit or debit cards.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="heading-wallet">
+                                                    <h2 class="card-title">
+                                                        <input type="radio" name="payment" value="wallet" id="wallet_payment">
+                                                        <label for="wallet_payment">Wallet</label>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapse-wallet" class="collapse" aria-labelledby="heading-wallet" data-parent="#accordion-payment">
+                                                    <div class="card-body">
+                                                        Pay using your wallet balance.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
+                                            
                                             <img src="{% static 'assets/images/payments-summary.png' %}" alt="payments cards">
                                         </div>
                         
@@ -578,7 +618,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{% static 'assets/images/logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{% static 'assets/images/venet/iconfull.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">

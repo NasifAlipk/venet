@@ -416,7 +416,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         <a href="/home" class="logo">
-                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                            <img src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Molla Logo" width="105" height="25">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
@@ -568,12 +568,6 @@
                                                             Use this address
                                                         </label>
                                                     </div>
-                                    
-                                                    <!-- Form to remove the address -->
-                                                    {% comment %} <form method="POST" action="{% url 'remove_address_from_checkout' address.id %}" class="mt-2">
-                                                        {% csrf_token %}
-                                                        <button type="submit" class="btn btn-danger btn-sm">Remove</button>
-                                                    </form> {% endcomment %}
                                                 </div>
                                             </div>
                                         </div>
@@ -598,12 +592,12 @@
                                                 {% for item in cart_items %}
                                                 <tr>
                                                     <td><a href="#">{{ item.product.title }}</a></td>
-                                                    <td>${{ item.total_price }}</td>
+                                                    <td>₹{{ item.total_price }}</td>
                                                 </tr>
                                                 {% endfor %}
                                                 <tr class="summary-subtotal">
                                                     <td>Subtotal:</td>
-                                                    <td>${{ total_cart_price }}</td>
+                                                    <td>₹{{ total_cart_price }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Shipping:</td>
@@ -611,7 +605,7 @@
                                                 </tr>
                                                 <tr class="summary-total">
                                                     <td>Total:</td>
-                                                    <td>${{ final_total_amount }}</td>
+                                                    <td>₹{{ final_total_amount }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -703,7 +697,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{% static 'assets/images/venet/icon.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{% static 'assets/images/venet/iconfull.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">

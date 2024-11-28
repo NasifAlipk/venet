@@ -156,12 +156,12 @@
 
     <div class="address">
         <div><strong>Billing Address:</strong></div>
-        <div>{{ order.address.street_address }}</div>
-        <div>{{ order.address.city }}</div>
-        <div>{{ order.address.state }}</div>
-        <div>{{ order.address.zipcode }}</div>
-        <div>{{ order.address.country }}</div>
+        <div><strong>Name:</strong> {{ order.address.first_name }} {{ order.address.last_name }}</div>
+        <div><strong>Street Address:</strong> {{ order.address.street_address }}</div>
+        <div><strong>City:</strong> {{ order.address.city }}</div>
+        <div><strong>State:</strong> {{ order.address.state }}</div>
     </div>
+    
 
     <div class="order-details">
         <div><strong>Order Number:</strong> {{ order.id }}</div>
@@ -178,7 +178,7 @@
                     <th>Product Name</th>
                     <th>Quantity</th>
                     <th>Price</th>
-                    {% comment %} <th>Discount</th> {% endcomment %}
+                    <th>Discount</th>
                     <th>Total</th>
                 </tr>
             </thead>
@@ -188,7 +188,7 @@
                         <td>{{ item.product.title }}</td>
                         <td>{{ item.quantity }}</td>
                         <td>${{ item.price }}</td>
-                        {% comment %} <td>${{ order.discount_amount|floatformat:2 }}</td> {% endcomment %}
+                        <td>${{ item.discount_amount|floatformat:2 }}</td>
                         <td>${{ order.total_amount }}</td>
                     </tr>
                 {% empty %}

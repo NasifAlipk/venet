@@ -275,7 +275,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         <a href="/home" class="logo">
-                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                            <img src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Molla Logo" width="105" height="25">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
@@ -446,12 +446,7 @@
                                                                                 <p><strong>Total Amount:</strong> ₹{{ order.total_amount }}</p>
                                                                                 <p><strong>Payment Type:</strong> {{ order.get_payment_method_display }}</p>
                                                                                 <p><strong>Payment Status:</strong> {{ order.payment_status }}</p> <!-- Add this line -->
-                                                                                <!-- Show Pay Now button only if payment status is pending -->
-                                                                                {% comment %} {% if order.payment_status == "pending" %}
-                                                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#razorpayModal">
-                                                                                        Pay Now
-                                                                                    </button>
-                                                                                {% endif %} {% endcomment %}
+                                                                                {% comment %} <p><strong>Payment Status:</strong> {{ order.payment_status }}</p> {% endcomment %}
                                                                             </div>
                                                                             <div class="modal fade" id="razorpayModal" tabindex="-1" role="dialog" aria-labelledby="razorpayModalLabel" aria-hidden="true">
                                                                                 <div class="modal-dialog" role="document">
@@ -583,7 +578,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{% static 'assets/images/logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{% static 'assets/images/venet/iconfull.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">

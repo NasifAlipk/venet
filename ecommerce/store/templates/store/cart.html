@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body>
@@ -84,7 +86,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         <a href="/home" class="logo">
-                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                            <img src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Molla Logo" width="105" height="25">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
@@ -274,7 +276,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{% static 'assets/images/logo.png' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{% static 'assets/images/venet/iconfull.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">
@@ -639,77 +641,104 @@
     <!-- Include jQuery library (if not already included) -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const quantityInputs = document.querySelectorAll('.quantity-input');
-        const incrementButtons = document.querySelectorAll('.quantity-button.increment');
-        const decrementButtons = document.querySelectorAll('.quantity-button.decrement');
-        
-        function updateQuantity(itemId, newQuantity) {
-            const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
-            const currentQuantity = parseInt(input.value);
-            
-            if (newQuantity < 1 || newQuantity > parseInt(input.max)) {
+        const cartTotalElement = document.querySelector('.cart-total-price');
+    
+        function showErrorMessage(message) {
+            Swal.fire({
+                title: 'Oops...',
+                text: message,
+                icon: 'error',
+                confirmButtonColor: '#d33'
+            });
+        }
+    
+        function updateQuantity(input, newQuantity) {
+            const itemId = input.dataset.itemId;
+            const itemPrice = parseFloat(input.closest('tr').querySelector('.price-col').textContent.replace('$', ''));
+            const oldQuantity = parseInt(input.value);
+    
+            // Basic client-side validation
+            if (newQuantity < 1) {
+                showErrorMessage('Quantity cannot be less than 1');
+                input.value = oldQuantity;
                 return;
             }
-            
-            // Send AJAX request to update quantity
+    
+            // Send AJAX request
             fetch(`/update_cart_item/${itemId}/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': getCookie('csrftoken')
                 },
-                body: JSON.stringify({quantity: newQuantity.toString()})  // Convert to string
+                body: JSON.stringify({ quantity: newQuantity })
             })
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Update input value
+                    // Silently update the DOM without showing success message
                     input.value = newQuantity;
-                    
-                    // Update item total price
-                    const totalPriceElement = document.querySelector(`.item-total-price[data-item-id="${itemId}"]`);
-                    totalPriceElement.textContent = `$${data.new_total.toFixed(2)}`;
-                    
-                    // Update cart total (if you have a cart total element)
-                    // const cartTotalElement = document.getElementById('cart-total');
-                    // cartTotalElement.textContent = `$${data.cart_total.toFixed(2)}`;
+                    const newTotalPrice = itemPrice * newQuantity;
+                    input.closest('tr').querySelector('.item-total-price').textContent = `$${newTotalPrice.toFixed(2)}`;
+                    updateCartTotal();
                 } else {
-                    alert(data.error);
+                    // Handle different error scenarios
+                    if (data.error.includes('stock')) {
+                        // Stock limit reached
+                        showErrorMessage('Stock limit reached! Available stock: ' + data.available_stock);
+                        input.value = oldQuantity; // Reset to previous quantity
+                    } else {
+                        showErrorMessage(data.error || 'Failed to update cart');
+                        input.value = oldQuantity;
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while updating the cart.');
+                showErrorMessage('An error occurred while updating the cart');
+                input.value = oldQuantity;
             });
         }
-        
-        incrementButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
-                const newQuantity = parseInt(input.value) + 1;
-                updateQuantity(itemId, newQuantity);
+    
+        function updateCartTotal() {
+            let total = 0;
+            document.querySelectorAll('.item-total-price').forEach(el => {
+                total += parseFloat(el.textContent.replace('$', ''));
             });
-        });
-        
-        decrementButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const itemId = this.dataset.itemId;
-                const input = document.querySelector(`.quantity-input[data-item-id="${itemId}"]`);
-                const newQuantity = parseInt(input.value) - 1;
-                updateQuantity(itemId, newQuantity);
-            });
-        });
-        
+            cartTotalElement.textContent = `$${total.toFixed(2)}`;
+        }
+    
+        // Quantity input event listeners
         quantityInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                const itemId = this.dataset.itemId;
+            input.addEventListener('change', function () {
                 const newQuantity = parseInt(this.value);
-                updateQuantity(itemId, newQuantity);
+                updateQuantity(this, newQuantity);
             });
+    
+            // Optional: Add increment/decrement buttons handlers if you have them
+            const incrementBtn = input.parentElement.querySelector('.increment-btn');
+            const decrementBtn = input.parentElement.querySelector('.decrement-btn');
+    
+            if (incrementBtn) {
+                incrementBtn.addEventListener('click', function() {
+                    const currentVal = parseInt(input.value);
+                    updateQuantity(input, currentVal + 1);
+                });
+            }
+    
+            if (decrementBtn) {
+                decrementBtn.addEventListener('click', function() {
+                    const currentVal = parseInt(input.value);
+                    if (currentVal > 1) {
+                        updateQuantity(input, currentVal - 1);
+                    }
+                });
+            }
         });
     });
     
@@ -717,53 +746,16 @@
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+            document.cookie.split(';').forEach(cookie => {
+                const trimmed = cookie.trim();
+                if (trimmed.startsWith(`${name}=`)) {
+                    cookieValue = decodeURIComponent(trimmed.substring(name.length + 1));
                 }
-            }
+            });
         }
         return cookieValue;
     }
     </script>
-
-<script>
-$(document).ready(function() {
-    // Listen for changes in any input with class 'quantity-input'
-    $('.quantity-input').on('change', function() {
-        // Get the item ID and new quantity
-        var itemId = $(this).data('item-id');
-        var newQuantity = $(this).val();
-        
-        // Fetch the item price (parse to float to handle decimals)
-        var itemPrice = parseFloat($(this).closest('tr').find('.price-col').text().replace('$', ''));
-        
-        // Calculate the new total price for this item
-        var newTotalPrice = itemPrice * newQuantity;
-        
-        // Update the total price in the DOM
-        $(this).closest('tr').find('.item-total-price[data-item-id="' + itemId + '"]').text('$' + newTotalPrice.toFixed(2));
-
-        // Optionally, you could also update the total cart price here if you want
-        updateCartTotal();
-    });
-
-    function updateCartTotal() {
-        var totalCartPrice = 0;
-
-        // Iterate over each total price and sum them up
-        $('.item-total-price').each(function() {
-            totalCartPrice += parseFloat($(this).text().replace('$', ''));
-        });
-
-        // Update the cart total in the DOM
-        $('.cart-total-price').text('$' + totalCartPrice.toFixed(2));
-    }
-});
-</script>
 
 
     <!-- Plugins JS File -->

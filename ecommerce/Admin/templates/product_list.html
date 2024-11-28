@@ -97,7 +97,7 @@
 <span style="color:var(--bs-primary);">
 </span>
 </span>
-      <img  src="{% static 'assets/images/venet/icon.jpg' %}" alt="Venet Logo" width="105" height="30">
+      <img  src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Venet Logo" width="105" height="30">
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -564,120 +564,136 @@
       </div>
       <table class="datatables-products table dataTable no-footer dtr-column collapsed" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" style="width: 1044px;">
         <thead>
-          <tr>
-            {% comment %} 
-            <th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 5px;" aria-label=""></th> 
-            {% endcomment %}
-            <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 18px;" data-col="1" aria-label="">
-              <input type="checkbox" class="form-check-input">
-            </th>
-            <th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 440px;" aria-label="product: activate to sort column descending" aria-sort="ascending">Product</th>
-            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 136px;" aria-label="category: activate to sort column ascending">Category</th>
-            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 47px;" aria-label="stock: activate to sort column ascending">Stock</th>
-            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 37px;" aria-label="price: activate to sort column ascending">Price</th>
-            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 47px;" aria-label="status: activate to sort column ascending">Status</th>
-            <th class="sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 57px;" aria-label="Actions">Actions</th>
-          </tr>
+            <tr>
+                <th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 18px;" data-col="1" aria-label="">
+                    <input type="checkbox" class="form-check-input">
+                </th>
+                <th class="sorting sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 440px;" aria-label="product: activate to sort column descending" aria-sort="ascending">Product</th>
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 136px;" aria-label="category: activate to sort column ascending">Category</th>
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 47px;" aria-label="stock: activate to sort column ascending">Stock</th>
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 37px;" aria-label="price: activate to sort column ascending">Price</th>
+                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 47px;" aria-label="status: activate to sort column ascending">Status</th>
+                <th class="sorting_disabled dtr-hidden" rowspan="1" colspan="1" style="width: 57px;" aria-label="Actions">Actions</th>
+            </tr>
         </thead>
         <tbody>
-          {% for product in products %}
-          <tr class="odd">
-            <td class="dt-checkboxes-cell">
-              <input type="checkbox" class="dt-checkboxes form-check-input">
-            </td>
-            <td class="sorting_1">
-              <div class="d-flex justify-content-start align-items-center product-name">
-                <div class="avatar-wrapper me-3">
-                  <div class="avatar rounded-3 bg-label-secondary">
-                    <img src="{{ product.image1.url }}" alt="{{ product.title }}" class="rounded-2">
-                  </div>
-                </div>
-                <div class="d-flex flex-column">
-                  <span class="text-nowrap text-heading fw-medium">{{ product.title }}</span>
-                  <small class="text-truncate d-none d-sm-block">{{ product.description }}</small>
-                </div>
-              </div>
-            </td>
-            <td>
-              <h6 class="text-truncate d-flex align-items-center mb-0 fw-normal">
-                <span>{{ product.category.title }}</span>
-              </h6>
-            </td>
-            <td><span>{{ product.stock }}</span></td>
-            <td><span>${{ product.price }}</span></td>
-            <td>
-              <!-- Status Toggle Button -->
-              <button type="button" class="btn btn-sm toggle-status-btn {% if product.status %}btn-success{% else %}btn-danger{% endif %}" data-product-id="{{ product.id }}">
-                {% if product.status %}
-                  Active
-                {% else %}
-                  Inactive
-                {% endif %}
-              </button>
-            </td>
-            <td>
-              <!-- Edit Button -->
-              <button type="button" class="btn btn-sm btn-icon btn-text-secondary waves-effect waves-light rounded-pill me-50" data-bs-toggle="modal" data-bs-target="#editModal{{ product.id }}">
-                <i class="ri-edit-box-line ri-20px"></i>
-              </button>
-            </td>
-          </tr>
-        
-
-          
-
-
-          <!-- Modal for editing product details -->
-          <div class="modal fade" id="editModal{{ product.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ product.id }}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel{{ product.id }}">Edit Product</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {% for product in products %}
+            <tr class="odd">
+                <td class="dt-checkboxes-cell">
+                    <input type="checkbox" class="dt-checkboxes form-check-input">
+                </td>
+                <td class="sorting_1">
+                    <div class="d-flex justify-content-start align-items-center product-name">
+                        <div class="avatar-wrapper me-3">
+                            <div class="avatar rounded-3 bg-label-secondary">
+                                <img src="{{ product.image1.url }}?v={{ product.updated_at|date:'U' }}" alt="{{ product.title }}" class="rounded-2">
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column">
+                            <span class="text-nowrap text-heading fw-medium">{{ product.title }}</span>
+                            <small class="text-truncate d-none d-sm-block">{{ product.description }}</small>
+                        </div>
                     </div>
-                    <form method="POST" action="{% url 'edit_product' product.id %}">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            <!-- Form fields for editing product -->
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Title</label>
-                                <input type="text" class="form-control" id="title" name="title" value="{{ product.title }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3" required>{{ product.description }}</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label for="price" class="form-label">Price</label>
-                                <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="stock" class="form-label">Stock</label>
-                                <input type="number" class="form-control" id="stock" name="stock" value="{{ product.stock }}" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="product-status" class="form-label">Status</label>
-                                <select class="form-select" id="product-status" name="status" required>
-                                    <option value="True" {% if product.status %}selected{% endif %}>Active</option>
-                                    <option value="False" {% if not product.status %}selected{% endif %}>Inactive</option>
-                                </select>
-                            </div>
-                            <!-- Add more fields as needed -->
+                </td>
+                <td>
+                    <h6 class="text-truncate d-flex align-items-center mb-0 fw-normal">
+                        <span>{{ product.category.title }}</span>
+                    </h6>
+                </td>
+                <td><span>{{ product.stock }}</span></td>
+                <td><span>₹{{ product.price }}</span></td>
+                <td>
+                    <!-- Status Toggle Button -->
+                    <button type="button" class="btn btn-sm toggle-status-btn {% if product.status %}btn-success{% else %}btn-danger{% endif %}" data-product-id="{{ product.id }}">
+                        {% if product.status %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </button>
+                </td>
+                <td>
+                    <!-- Edit Button -->
+                    <button type="button" class="btn btn-sm btn-icon btn-text-secondary waves-effect waves-light rounded-pill me-50" data-bs-toggle="modal" data-bs-target="#editModal{{ product.id }}">
+                        <i class="ri-edit-box-line ri-20px"></i>
+                    </button>
+                </td>
+            </tr>
+    
+            <!-- Modal for editing product details -->
+            <div class="modal fade" id="editModal{{ product.id }}" tabindex="-1" aria-labelledby="editModalLabel{{ product.id }}" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel{{ product.id }}">Edit Product</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
+                        <form method="POST" action="{% url 'edit_product' product.id %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="modal-body">
+                                <!-- Other fields for editing product -->
+                                <div class="mb-3">
+                                    <label for="title" class="form-label">Title</label>
+                                    <input type="text" class="form-control" id="title" name="title" value="{{ product.title }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Description</label>
+                                    <textarea class="form-control" id="description" name="description" rows="3" required>{{ product.description }}</textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="price" class="form-label">Price</label>
+                                    <input type="number" class="form-control" id="price" name="price" value="{{ product.price }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="stock" class="form-label">Stock</label>
+                                    <input type="number" class="form-control" id="stock" name="stock" value="{{ product.stock }}" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Current Images</label>
+                                    <div class="d-flex gap-2">
+                                        {% if product.image1 %}
+                                            <img src="{{ product.image1.url }}?v={{ product.updated_at|date:'U' }}" alt="Image 1" class="img-thumbnail" style="width: 100px; height: auto;">
+                                        {% endif %}
+                                        {% if product.image2 %}
+                                            <img src="{{ product.image2.url }}?v={{ product.updated_at|date:'U' }}" alt="Image 2" class="img-thumbnail" style="width: 100px; height: auto;">
+                                        {% endif %}
+                                        {% if product.image3 %}
+                                            <img src="{{ product.image3.url }}?v={{ product.updated_at|date:'U' }}" alt="Image 3" class="img-thumbnail" style="width: 100px; height: auto;">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image1" class="form-label">Replace Image 1</label>
+                                    <input type="file" class="form-control" id="image1" name="image1">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image2" class="form-label">Replace Image 2</label>
+                                    <input type="file" class="form-control" id="image2" name="image2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="image3" class="form-label">Replace Image 3</label>
+                                    <input type="file" class="form-control" id="image3" name="image3">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="product-status" class="form-label">Status</label>
+                                    <select class="form-select" id="product-status" name="status" required>
+                                        <option value="True" {% if product.status %}selected{% endif %}>Active</option>
+                                        <option value="False" {% if not product.status %}selected{% endif %}>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-          {% endfor %}
+            {% endfor %}
         </tbody>
-  
-        
-      </table>
+    </table>
+    
       
     </div>
   </div>

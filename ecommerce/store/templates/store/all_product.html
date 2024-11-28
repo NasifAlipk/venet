@@ -141,7 +141,7 @@
                             <i class="icon-bars"></i>
                         </button>
                         <a href="/home" class="logo">
-                            <img src="{% static 'assets/images/venet/icon.jpg' %}" alt="Molla Logo" width="105" height="25">
+                            <img src="{% static 'assets/images/venet/iconfull.jpg' %}" alt="Molla Logo" width="105" height="25">
                         </a>
                         <nav class="main-nav">
                             <ul class="menu sf-arrows">
@@ -395,36 +395,7 @@
 
         						
 
-        						<div class="widget widget-collapsible">
-                                    <h3 class="widget-title">
-                                        <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
-                                            Brand
-                                        </a>
-                                    </h3><!-- End .widget-title -->
-                                
-                                    <div class="collapse show" id="widget-4">
-                                        <div class="widget-body">
-                                            <div class="filter-items">
-                                                <!-- Form to handle brand filter -->
-                                                <form method="get" action="{% url 'all_product' %}">
-                                                    <!-- Retain existing category_id and sortby in the form -->
-                                                    <input type="hidden" name="category_id" value="{{ selected_category_id }}">
-                                                    <input type="hidden" name="sortby" value="{{ sortby }}">
-                                
-                                                    {% for brand in brands %}
-                                                    <div class="filter-item">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" id="brand-{{ brand.id }}" name="brand_id" value="{{ brand.id }}"
-                                                            onchange="this.form.submit();" {% if brand.id|stringformat:"s" == selected_brand_id|stringformat:"s" %}checked{% endif %}>
-                                                            <label class="custom-control-label" for="brand-{{ brand.id }}">{{ brand.name }}</label>
-                                                        </div><!-- End .custom-checkbox -->
-                                                    </div><!-- End .filter-item -->
-                                                    {% endfor %}
-                                                </form>
-                                            </div><!-- End .filter-items -->
-                                        </div><!-- End .widget-body -->
-                                    </div><!-- End .collapse -->
-                                </div><!-- End .widget -->
+        						
                                 
                                 <!-- Display Products -->
                                 {% for product in products %}
@@ -448,7 +419,7 @@
 	            	<div class="row">
 	            		<div class="col-sm-6 col-lg-3">
 	            			<div class="widget widget-about">
-	            				<img src="{% static 'assets/images/venet/icon.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<img src="{% static 'assets/images/venet/iconfull.jpg' %}" class="footer-logo" alt="Footer Logo" width="105" height="25">
 	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
 
 	            				<div class="social-icons">
