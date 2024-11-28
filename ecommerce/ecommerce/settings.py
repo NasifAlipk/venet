@@ -22,7 +22,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = True
 # 'venet.store','www.venet.store'
 # '13.53.205.222'
-ALLOWED_HOSTS = ['0.0.0.0',]
+ALLOWED_HOSTS = ['0.0.0.0','13.53.205.222','venet.store','www.venet.store']
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
